@@ -1,0 +1,1 @@
+从ActionSupport继承，按照约定写好方法，用DomainModel(就是写实体类)接收参数(用getName()等方法拿参数)，用控制反转访问session(实现SessionAware接口)

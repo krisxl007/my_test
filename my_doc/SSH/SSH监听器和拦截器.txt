@@ -1,0 +1,20 @@
+监听器(Listener): web.xml的监听器配置在web.xml中，如：
+
+	<listener>
+		<listener-class>com.oa.util.InitListener</listener-class>
+	</listener>
+
+拦截器(Interceptor): Struts中预先定义了很多拦截器，我们使用struts预定义过的拦截器时只需要做相应的配置即可，
+		     大多数常用的都会在default中有定义，而在struts.xml中不写就默认使用这个default。当我们
+		     要使用自己定义的拦截器时，需要写一个拦截器类，并在struts.xml中配置,如：
+
+	<interceptors>
+    		<!-- 声明拦截器 -->
+    		<interceptor name="checkPrivilege" class="com.oa.interceptor.ValidateInterceptor"></interceptor>
+    		
+    		<!-- 重新定义默认的拦截器栈 -->
+    		<interceptor-stack name="defaultStack">
+    			<interceptor-ref name="checkPrivilege"></interceptor-ref>
+    			<interceptor-ref name="defaultStack"></interceptor-ref>
+    		</interceptor-stack>
+    	</interceptors>

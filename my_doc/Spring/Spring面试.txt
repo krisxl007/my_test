@@ -1,0 +1,51 @@
+1.IOC的实现：把Spring的配置文件里的bean放到一个Map中，bean的id作为Map的Key,new一个bean的class的对象作为Map的value，这样每次就可以用getBean方法
+	     来取出Map里的Bean。
+
+
+2.IOC的三种注入方式：
+(1)接口注入
+(2)属性注入，即setter方法注入(xml和annotation两种方法实现)
+	xml方式:将DaoBean注入到ServiceBean中
+	    1.在ServiceBean中写Setter方法:
+		public class void ServiceBean {
+			private DaoBean daoBean;
+
+			public void setDaoBean(DaoBean daoBean){
+				this.daoBean = daoBean;
+			}
+		}
+	    2.在applicationContext.xml中配置bean:
+		<bean id="daoBean" class="com.DaoBean"/>
+
+		<bean id="serviceBean" class="com.ServiceBean">
+			<property name="daoBean" ref="daoBean"> //将DaoBean这个类注入到ServiceBean类中
+		</bean>
+
+	annotation方式：
+		
+(3)构造方法注入
+
+
+3.AOP的实现：通过动态代理实现，Spring产生一个类代理对象Proxy，该Proxy拥有这个类的所有方法，在程序调用这个类的方法时，Proxy会首先调用
+	     Interceptor(Interceptord实现了InvacationHandler接口)的invoke方法，添加需要的切面逻辑(权限检查，日志等)，然后再调用这个类的方法。
+
+	 
+4.AOP用法：
+(1)导入AOP的jar包(aspectjweaver.jar和aspectjrt.jar)
+(2)在Spring的配置文件里导入AOP的命名空间和<aop:aspectj-autoproxy/>
+(3)写自己的切面逻辑类interceptor并在类和类的方法上注释上需要的annotation：
+	例：
+		@Aspect
+		@Component
+		public class Interceptor {
+			
+			@Before(value = "execution (public void com.oa.service.impl.UserServiceImpl.m())") //织入点语法
+			public void beforeMethod() {
+				System.out.println("this is before method");
+			}
+			
+			@After(value = "execution (public void com.oa.service.impl.UserServiceImpl.m())") //织入点语法
+			public void afterMethod() {
+				System.out.println("this is after method");
+			}
+		}
