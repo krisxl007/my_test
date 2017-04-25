@@ -1,0 +1,3 @@
+sturts把参数和属性都封装在ActionContext中，JSP使用EL表达式访问，而Struts则使用OGNL表达式：
+1.在struts标签中的OGNL表达式为：%{id} 或 %{#topic.name}//通过#查询map的方式查询
+2.在JSP中的EL表达式为：${name}

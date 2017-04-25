@@ -1,0 +1,104 @@
+select:
+select global_name from global_name; 查看服务器名称
+select * from (TableName); 查看表
+select 字段1，字段2 from 表; 查看某张表的某些字段
+select 字段1，字段2 "重命名" from 表; 查看某张表的某些字段并给字段2重命名
+select 字段 || ‘字符串‘ from 表；||相当于连接符号+号，单引号内是字符串
+select * from where sal=1500; 用where来找寻特定条件值，也可用大于小于不等于号
+select comm,sal from emp where comm is null(comm is not null); 查询空值不用等号
+select sal,comm from emp where sal in (800,1500,2000); 查询800,1500,2000三个特殊值
+select ename from emp where ename like '%ALL%'; 用like来模糊查询
+select * from dept order by deptno desc（asc); 用order by来排序，desc为降序,asc为降序
+select deptno,avg(sal) from emp group by deptno; 用group by来分组，按部门查询平均薪水
+select avg(sal),deptno from emp group by deptno having avg(sal)>2000; 用having对分组后的语句来做限制，where是对单组语句进行限制，不能用于分组语句
+select ename,dname from emp join dept on (emp.deptno = dept.deptno); ename是emp表的字段，dname是dept表的字段，用join来连接两张表，并用on来设置条件
+
+sql函数:
+lower(字符):将字符转换成小写 
+upper(字符):将字符转换成大写
+substr(字符,2,3):截字符，从第二个字符开始截，一共截三个字符
+chr(ascii编码):ascii编码转换成字符
+ascii('A'):字符转换成ascii编码
+round(23.652,2):四舍五入23.652到小数点后面两位，无第二个参数时默认到个位
+to_char(sal,'YYYY-MM-DD HH24:MI:SS'):格式转化函数，将日期格式转化成年月日时分秒的形式
+to_date('1981-2-20 12:34:56','YYYY-MM-DD HH24:MI:SS'):转换成日期
+to_number('$1,250.00','$9,999.99'):转换成数字
+nvl(comm,0):处理null值的函数，如果是空值，则用0来替代空值，如果不是空值，则为comm的原值
+
+组函数:
+max(sal):取最大值
+min(sal):取最小值
+avg(sal):取平均值
+sum(sal):取总和
+count(*):求这张表里一共有几条记录
+
+
+
+
+insert:
+insert into dept2 values (50,'game','beijing'); 按表已有的字段逐个插入值
+insert into dept2 (deptno,dname) values (60,'game2'); 给特定字段插入值，其他字段默认为空值
+
+
+
+
+update:
+update emp2 set sal=sal*2 where deptno=10; 用update来修改值
+
+
+
+
+delete:
+delete from emp2; 删除表
+delete from dept2 where deptno=10; 删除deptno=10的所有字段
+delete from privilege where id>10 and id<20; 删除id大于10且小于20的所有字段
+delete from privilege where id in(1,3,5,7,9); 删除id为1，3，5，7，9的字段
+
+
+
+
+DDL语句(控制）:
+show databases;	查看有哪些数据库
+show tables;	查看有那些表
+show create table t1; 查看t1表的建表语句
+conn 用户名/密码; 登录用户
+alter user (UserName) unlock; 解锁用
+desc (TableName); 描述表（字段，类型等）
+select distinct 字段 from 表; distinct可以过滤掉重复的字段
+rollback; 撤销当前transaction的操作
+commit; 提交当前transaction
+exit 退出并提交transaction
+create table emp2 as select * from emp; 按照emp这张表来创建一张新表emp2
+create table t (a varchar2(10)); 创建表t，字段是a，类型为varchar2,长度为10
+create index idx_stu_email on student(email); 为表student的email字段建立索引
+create view v$_stu as select id,name,age from student; 建立一张视图
+drop table t1,t2,t3; 删除表t1,t2,t3
+alter table student add(addr varchar2(100)); 给表student插入一个新字段addr
+alter table student drop (addr); 删除表student的addr字段
+alter table reply drop foreign key FK4B322CA8284C226; 删除reply表的外键约束
+alter table reply change topicId topic_id bigint(20); 修改reply表的字段名
+alter table topic add constraint FK90FFD39A2B39ADCE foreign key (forum_id) references forum (id); 添加外键：将topic表的forum_id设置为参考forum表id字段的外键
+alter table student modify (addr varchar2(50)); 修改addr字段类型长度为50
+desc user_tables; user_tables是oracle的用户字典表
+desc user_views;  user_views是用户视图字典
+desc user_constraints; user_constaints是用户约束字典
+select table_name from user_tables; 查看当前用户下拥有的表
+
+
+
+
+
+
+例子1：创建表
+create table student
+(
+id number(6),
+name varchar2(20) not null,  //用not null来限制不能插入空值
+sex number(1),
+age number(3),
+sdate date,
+grade number(2) default 1,
+class number(4),
+email varchar2(50) unique    //用unique来限制不能插入重复值
+constraint stu_name_email_uni unique(email,name) //限制email和name组合不能重复
+)；

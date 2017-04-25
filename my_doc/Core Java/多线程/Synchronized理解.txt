@@ -1,0 +1,13 @@
+Synchronized的使用分为两种:
+1.Synchronized(对象锁) - 对同一个对象起作用，对同一个类的不同对象不起作用。一般有下面两种方式：
+1)修饰普通方法:
+	public synchronized void method1(){}
+	
+2)修饰代码块:
+	synchronized (this) {}
+
+2.Static Synchronized(类锁) - 对同一个类的不同对象也起作用
+修饰静态方法:
+	public static synchronized void method1(){}
+
+

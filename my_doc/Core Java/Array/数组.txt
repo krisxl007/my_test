@@ -1,0 +1,9 @@
+数组也是对象。为什么呢，因为权威的Java Language Specification是这么说的：
+In the Java programming language, arrays are objects (§4.3.1), are dynamically created, and may be assigned to variables of type Object (§4.3.2). All methods of class 
+Object may be invoked on an array.
+
+但是这个数组对象并不是从某个类实例化来的，而是由JVM直接创建的，因此查看类名的时候会发现是很奇怪的类似于"[I"这样的样子，这个直接创建的对象的父类就是Object，
+所以可以调用Object中的所有方法，包括你用到的toString()。
+
+数组可以分为基本类型数组和对象数组，Java中并没有直接的数组对象(如Array类等)，数组对象是由JVM直接创建，并分配给一个连续的内存块，每个内存块中就保存着基本类型数组的值或者
+对象数组的对象的引用，因此数组是第一级的对象。

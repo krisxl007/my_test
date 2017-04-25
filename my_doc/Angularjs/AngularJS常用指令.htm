@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="gb2312" />
+<meta name="applicable-device" content="pc">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<title>AngularJS内置指令_AngularJS_脚本之家</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+<meta name="keywords" content="AngularJS,内置指令" />
+<meta name="description" content="这篇文章主要详细介绍了AngularJS内置指令的使用方法，非常详细，常用的一些指令操作都做了总结，有需要的小伙伴参考下" />
+<link rel="alternate" media="only screen and(max-width: 640px)" href="http://m.jb51.net/article/60733.htm" />
+<meta http-equiv="mobile-agent" content="format=html5; url=http://m.jb51.net/article/60733.htm" />
+<meta http-equiv="mobile-agent" content="format=xhtml; url=http://m.jb51.net/article/60733.htm" />
+<script type="text/javascript">
+var tougao="hebedich";var lmname="JavaScript";var ourl="";
+(function(){var reWriteUrl=function(url){if(url){var Splits=url.split("/"),siteName=window.location.pathname;if(typeof siteName!=="undefined"){return "http://m.jb51.net"+siteName}}};if(/Android|webOS|iPhone|iPad|Windows Phone|iPod|BlackBerry|SymbianOS|Nokia|Mobile/i.test(navigator.userAgent)){var url=window.location.href;var pathname=window.location.pathname;if(url.indexOf("?pc")<0){try{window.location.href=reWriteUrl(url)}catch(e){}}}})();
+</script>
+<link type="text/css" href="http://img.jb51.net/skin/2016/base.css" rel="stylesheet" />
+<link type="text/css" href="http://img.jb51.net/skin/2016/common.css" rel="stylesheet" />
+<script type="text/javascript" src="http://img.jb51.net/jslib/jquery/jquery.min.js"></script>
+<script type=text/javascript src="http://img.jb51.net/js/base.js"></script>
+</head>
+<body>
+<!--head Star -->
+<div id="head">
+  <div class="toolBar">
+  <div class="main">
+    <!--topNav Star -->
+    <div class="topNav clearfix">
+      <ul class="navList fl">
+        <li>
+          <div class="one"><a href="http://www.jb51.net" target="_blank">脚本之家</a></div>
+        </li>
+        <li>
+          <div class="one"><a href="http://www.jb51.net/softs/" target="_blank">软件下载<i class="icon"></i></a></div>
+          <div class="two">
+<a href="/softs/android.html" target="_blank">android软件</a> <a href="/softs/mac.html" target="_blank">MAC软件</a> <a href="/qudong/" target="_blank">驱动下载</a> <a href="/fonts/" target="_blank">字体下载</a> <a href="/dll/" target="_blank">DLL下载</a> </div>
+</li>
+        <li>
+          <div class="one"><a href="/codes/" target="_blank">源码下载<i class="icon"></i></a></div>
+          <div class="two"> <a href="/codes/asp.html" target="_blank">asp源码</a> <a href="/codes/php.html" target="_blank">php源码</a> <a href="/codes/aspnet.html" target="_blank">asp.net源码</a> <a href="/codes/jsp.html" target="_blank">jsp源码</a> <a href="/codes/editor.html" target="_blank">网页编辑器</a> <a href="/codes/list123_1.html" target="_blank">数据库管理</a> <a href="/codes/list124_1.html" target="_blank">常用组件</a> <a href="/jiaoben/" target="_blank">脚本下载</a></div>
+        </li>
+        <li>
+          <div class="one"><a href="http://tools.jb51.net" target="_blank">在线工具<i class="icon"></i></a></div>
+          <div class="two"> <a href="/shouce/" target="_blank">在线手册</a> <a href="/tools/cssyasuo.shtml" target="_blank">CSS格式化</a> <a href="http://tools.jb51.net/tools/js_geshihua.asp" target="_blank">JS格式化</a> <a href="/tools/html-js.htm" target="_blank">Html转化为Js</a> <a href="http://tools.jb51.net/regex/javascript" target="_blank">js正则表达式</a>
+</div>
+        </li>
+        <li>
+          <div class="one"><a href="/w3school/" target="_blank">网页教程基础</a></div>
+        </li>
+			<li>
+          <div class="one"><a href="http://s.jb51.net" target="_blank">服务器常用软件</a></div>
+        </li>
+		<li>
+          <div class="one"><a href="http://m.jb51.net" target="_blank">手机版</a></div>
+          <div class="two"><img src="http://files.jb51.net/images/m.jb51.net.png" data-baiduimageplus-ignore /></div>     
+        </li>
+        <li class="watch">
+          <div class="one"><a href="http://weibo.com/jb51net" target="_blank" rel="nofollow" ><i class="icon"></i>关注微信</a></div>
+          <div class="two"><img src="http://files.jb51.net/images/weixin_200.gif" data-baiduimageplus-ignore /></div>
+        </li>
+      </ul>
+      <div class="navUser mt5 fr" id="jb51_topbar" >
+
+      </div>
+    </div>
+    <!--topNav End -->
+  </div>
+</div>
+
+  <div class="main clearfix">
+    <div class="mtb10 clearfix">
+      <div class="logo"><a href="http://www.jb51.net/"><img src="http://www.jb51.net/images/logo.gif" title="脚本之家" alt="脚本之家" /></a></div>
+      <div class="logom fl"><span id="logo_m" class="jbTestPos"></span></div>
+      <div class="logor fr"><span id="logo_r" class="jbTestPos"></span></div>
+    </div>
+<!-- 导航-->
+<DIV class="nav_top clearfix">
+<UL>
+<li><a href="http://www.jb51.net/web/">网页制作</a></li>
+<li><a href="http://www.jb51.net/list/index_1.htm">网络编程</a></li>
+<li><a href="http://www.jb51.net/list/index_96.htm">脚本专栏</a></li>
+<li><a href="http://www.jb51.net/jiaoben/">脚本下载</a></li>
+<li><a href="http://www.jb51.net/list/index_104.htm">数据库</a></li>
+<li><a href="http://www.jb51.net/cms/">CMS教程</a></li>
+<li><a href="http://www.jb51.net/books/">电子书籍</a></li>
+<li><a href="http://www.jb51.net/pingmian/">平面设计</a></li>
+<li><a href="http://www.jb51.net/media/">媒体动画</a></li>
+<li><a href="http://www.jb51.net/os/">操作系统</a></li>
+<li><a href="http://www.jb51.net/yunying/">网站运营</a></li>
+<li><a href="http://www.jb51.net/hack/">网络安全</a></li>
+<li class="last"><a href="http://www.jb51.net/shouce/">在线手册</a></li>
+
+</UL>
+</DIV>
+
+<!--导航结束-->
+<div class="subnav clearfix">
+<ul><li><a href='/list/list_170_1.htm' title="YUI.Ext相关">YUI.Ext相关</a></li>
+<li><a href='/list/list_171_1.htm' title="prototype">prototype</a></li>
+<li><a href='/list/list_172_1.htm' title="jquery">jquery</a></li>
+<li><a href='/list/list_253_1.htm' title="AngularJS">AngularJS</a></li>
+<li><a href='/list/list_187_1.htm' title="json">json</a></li>
+<li><a href='/list/list_194_1.htm' title="lib_js">lib_js</a></li>
+<li><a href='/list/list_198_1.htm' title="js面向对象">js面向对象</a></li>
+<li><a href='/list/list_217_1.htm' title="extjs">extjs</a></li>
+<li><a href='/list/list_225_1.htm' title="Mootools">Mootools</a></li>
+<li><a href='/list/list_241_1.htm' title="Seajs">Seajs</a></li>
+<li><a href='/list/list_181_1.htm' title="dojo">dojo</a></li>
+<li><a href='/list/list_240_1.htm' title="其它">其它</a></li>
+</ul>
+</div>
+<div class="NavBar clearfix ptb10">
+<div class="fl w690">
+<div class="box mb15 mt10"><i class="icon"></i>您的位置：<a href='/'>首页</a> → <a href="/list/index_1.htm" title="网络编程">网络编程</a> → <a href="/list/list_3_1.htm" title="JavaScript">JavaScript</a> → <a href="/list/list_23_1.htm" title="javascript类库">javascript类库</a> → <a href="/list/list_253_1.htm" title="AngularJS">AngularJS</a> → 正文内容 AngularJS内置指令详使用指南</div>
+</div>
+<div class="fr w300"><div class="search">
+<form action="http://so.jb51.net/cse/search" target="_blank">
+    <input type="hidden" name="s" value="10520733385329581432">
+    <input type="hidden" name="ie" value="gbk">
+    <input type="text" name="q" class="key_input" placeholder="请输入关键词">
+    <input type="submit" value="搜索" class="c_btn">
+</form></div></div>
+  </div>
+</div>
+<!--head End -->
+<div class="main mb10 clearfix">
+<div class="clearfix"><span id="tonglan1" class="jbTestPos"></span></div>
+</div>
+
+<!--content Star -->
+<div id="contents">
+ <div class="main clearfix">
+      <div class="w690 fl">
+      <div class="article-content border">
+      <div class="title">
+            <h1 class="YaHei">AngularJS内置指令</h1>
+            <p>投稿：hebedich  字体：[<a href="javascript:turnbig()">增加</a> <a href="javascript:turnsmall()">减小</a>] 类型：转载 时间：2015-02-04<a href="#comments"> 我要评论</a></p>
+        </div>
+        <div class="art_desc mt10"><div id="art_demo">这篇文章主要详细介绍了AngularJS内置指令的使用方法，非常详细，常用的一些指令操作都做了总结，有需要的小伙伴参考下</div></div>
+        <div class="lbd clearfix"><span id="art_up" class="jbTestPos"></span></div>
+        <div id="content">
+<p>指令，我将其理解为AngularJS操作HTML element的一种途径。 <br />
+由于学习AngularJS的第一步就是写内置指令ng-app以指出该节点是应用的根节点，所以指令早已不陌生。</p>
+<p>这篇日志简单记录了一些内置指令，先使用起来，再谈一些有趣的东西。</p>
+<p><strong>内置指令</strong></p>
+<p>所有的内置指令的前缀都为ng，不建议自定义指令使用该前缀，以免冲突。<br />
+首先从一些常见的内置指令开始。<br />
+先列出一些关键的内置指令，顺便简单说说作用域的问题。</p>
+<p><strong>ng-model</strong></p>
+<p>将表单控件和当前作用域的属性进行绑定，这么解释似乎也不太正确。<br />
+但先不要管咬文嚼字，用起来倒是易懂，例如:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="11234" class="copybut" id="copybut11234" onclick="doCopy('code11234')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code11234"><br />
+&lt;input type="text" ng-model="someModel.someProperty" /&gt;&lt;br&gt;<br />
+{{someModel.someProperty}}<br />
+</div></p>
+<p><strong>ng-init</strong></p>
+<p>该指令被调用时会初始化内部作用域。<br />
+这个指令一般会出现在比较小的应用中，比如给个demo什么的...</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="2948" class="copybut" id="copybut2948" onclick="doCopy('code2948')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code2948"><br />
+&lt;div ng-init="job='fighter'"&gt;<br />
+&nbsp;&nbsp;&nbsp; I'm a/an {{job}}<br />
+&lt;/div&gt;<br />
+</div></p>
+<p>除了ng-init，我们还有更多更好的选择。</p>
+<p><strong>ng-app</strong></p>
+<p>每一次用AngularJS都离不开这个指令，顺便说下$rootScope。<br />
+声明了ng-app的元素会成为$rootScope的起点，而$rootScope是作用域链的根，通常声明在&lt;html&gt;你懂的。<br />
+也就是说根下的作用域都可以访问它。<br />
+但是，不建议过度使用$rootScope，免得全局变量满天飞，效率又差又难管。<br />
+下面是一个例子:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="80922" class="copybut" id="copybut80922" onclick="doCopy('code80922')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code80922"><br />
+&lt;html ng-app="myApp"&gt;<br />
+&lt;body&gt;<br />
+&nbsp;&nbsp;&nbsp; {{ someProperty }}<br />
+&lt;/body&gt;<br />
+&lt;script&gt;<br />
+var myApp = angular.module('myApp', [])<br />
+.run(function($rootScope) {<br />
+&nbsp;&nbsp;&nbsp; $rootScope.someProperty = 'hello computer';<br />
+}); <br />
+&lt;/script&gt;<br />
+&lt;/html&gt;<br />
+</div></p>
+<p><strong>ng-controller</strong></p>
+<p>我们用这个指令在一个DOM元素上装上controller。<br />
+一个控制器&#63; 确实，从字面意思上这样理解倒是不错，那我们为什么需要控制器&#63;<br />
+记得AngularJS 1.2.x时还可以这样定义controller来着...</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="20443" class="copybut" id="copybut20443" onclick="doCopy('code20443')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code20443"><br />
+function ohMyController($scope) {<br />
+&nbsp;&nbsp;&nbsp; //...<br />
+}<br />
+</div></p>
+<p>AngularJS 1.3.x中禁止了这种方式，因为这种方式会让controller满天飞，分不清层次，所有东西都挂在$rootScope上... <br />
+ng-controller必须有一个表达式作为参数，另外通过$scope来继承上级$scope的方法和属性什么的，$rootScope也包括在内。<br />
+下面只是一个简单的例子，ancestor无法访问child的作用域。</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="1880" class="copybut" id="copybut1880" onclick="doCopy('code1880')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code1880"><br />
+&lt;div ng-controller="AncestorController"&gt;<br />
+&nbsp;&nbsp;&nbsp; {{ ancestorName }}<br />
+&nbsp;&nbsp;&nbsp; {{ childName }}<br />
+&nbsp;&nbsp;&nbsp; &lt;div ng-controller="ChildController"&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ ancestorName }}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ childName }}<br />
+&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />
+&lt;/div&gt;<br />
+&lt;script&gt;<br />
+var myApp = angular.module('myApp', [])<br />
+.controller('ChildController', function($scope) {<br />
+&nbsp;&nbsp;&nbsp; $scope.childName = 'child';<br />
+})<br />
+.controller('AncestorController', function($scope) {<br />
+&nbsp;&nbsp;&nbsp; $scope.ancestorName = 'ancestor';<br />
+});<br />
+&lt;/script&gt;<br />
+</div></p>
+<p>作用域的问题远不止如此，暂且搁下，继续看看其他内置指令。</p>
+<p><strong>ng-form</strong></p>
+<p>起初不明白为什么会有个表单指令，&lt;form&gt;标签感觉也够用啊。<br />
+以表单验证为例，在上一篇中有这么一段代码:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="84126" class="copybut" id="copybut84126" onclick="doCopy('code84126')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code84126"><br />
+&lt;input type="submit" ng-disabled="mainForm.$invalid" /&gt;<br />
+</div></p>
+<p>也就是表单的状态为$invalid时禁用提交按钮。<br />
+如果场景再稍微复杂一点点，比如一个父表单中有多个子表单，子表单中有3个验证通过时父表单便可以提交。<br />
+但是，&lt;form&gt;是不可以嵌套的。<br />
+考虑到这种场景，我们便使用ng-form指令来解决这一问题。<br />
+例如:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="10830" class="copybut" id="copybut10830" onclick="doCopy('code10830')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code10830"><br />
+&lt;form name="mainForm" novalidate&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;div ng-form="form1"&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 姓名:&lt;input type="text" ng-required="true" ng-model="name"/&gt;&lt;br&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 证件号码:&lt;input type="number" ng-minLength="15" ng-maxLength="18" ng-required="true" ng-model="idnum"/&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;br&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;div ng-form="form2"&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 监护人姓名:&lt;input type="text" ng-required="true" ng-model="gname"/&gt;&lt;br&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 监护人证件号码:&lt;input type="number" ng-minLength="15" ng-maxLength="18" ng-required="true" ng-model="gidnum"/&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;button ng-disabled="form1.$invalid && form2.$invalid"&gt;submit all&lt;/button&gt;<br />
+&lt;/form&gt;<br />
+</div></p>
+<p><strong>ng-disabled</strong></p>
+<p>像这种只要出现则生效的属性，我们可以在AngularJS中通过表达式返回值true/false令其生效。<br />
+禁用表单输入字段。</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="30720" class="copybut" id="copybut30720" onclick="doCopy('code30720')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code30720"><br />
+&lt;textarea ng-disabled="1+1==2"&gt;1+1=&#63;&lt;/textarea&gt;<br />
+</div></p>
+<p><strong>ng-readonly</strong></p>
+<p>通过表达式返回值true/false将表单输入字段设为只读。<br />
+弄个例子，3秒后变成只读.</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="97608" class="copybut" id="copybut97608" onclick="doCopy('code97608')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code97608"><br />
+&lt;input type="text" ng-readonly="stopTheWorld" value="stop the world after 3s"/&gt;<br />
+.run(function($rootScope,$timeout){<br />
+&nbsp;&nbsp;&nbsp; $rootScope.stopTheWorld=false;<br />
+&nbsp;&nbsp;&nbsp; $timeout(function(){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $rootScope.stopTheWorld = true;<br />
+&nbsp;&nbsp;&nbsp; },3000)<br />
+})<br />
+</div></p>
+<p><strong>ng-checked</strong></p>
+<p>这个是给&lt;input type="checkbox" /&gt;用的，比如...</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="96944" class="copybut" id="copybut96944" onclick="doCopy('code96944')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code96944"><br />
+&lt;input type="checkbox" ng-checked="someProperty" ng-init="someProperty = true" ng-model="someProperty"&gt;<br />
+</div></p>
+<p><strong>ng-selected</strong></p>
+<p>给&lt;select&gt;里面的&lt;option&gt;用的，例子:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="72377" class="copybut" id="copybut72377" onclick="doCopy('code72377')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code72377"><br />
+&lt;label&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;input type="checkbox" ng-model="isFullStack"&gt;<br />
+&nbsp;&nbsp;&nbsp; I'm Full Stack Engineer<br />
+&lt;/label&gt;<br />
+&lt;select&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;option&gt;Front-End&lt;/option&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;option&gt;Back-End&lt;/option&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;option ng-selected="isFullStack"&gt;Full Stack !!!&lt;/option&gt;<br />
+&lt;/select&gt;<br />
+&nbsp;</div></p>
+<p><strong>ng-show/ng-hide</strong></p>
+<p>根据表达式显示/隐藏HTML元素，注意是隐藏，不是从DOM移除，例如:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="46078" class="copybut" id="copybut46078" onclick="doCopy('code46078')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code46078"><br />
+&lt;div ng-show="1+1 == 2"&gt;<br />
+&nbsp;&nbsp;&nbsp; 1+1=2<br />
+&lt;/div&gt;<br />
+&lt;div ng-hide="1+1 == 3"&gt;<br />
+&nbsp;&nbsp;&nbsp; you can't see me.<br />
+&lt;/div&gt;<br />
+</div></p>
+<p><strong>ng-change</strong></p>
+<p>不是HTML那套onXXX之类的，而是ng-XXX。<br />
+结合ng-model使用，以ng-change为例:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="98417" class="copybut" id="copybut98417" onclick="doCopy('code98417')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code98417"><br />
+&lt;input type="text" ng-model="calc.arg"&nbsp; ng-change="calc.result = calc.arg*2" /&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;code&gt;{{ calc.result }}&lt;/code&gt;<br />
+</div></p>
+<p>或者比如ng-options</p>
+<p><strong>{{}}</strong></p>
+<p>其实这个也是一个指令，也许觉得和ng-bind差不多，但页面渲染略慢时可能会被看到。<br />
+另外，{{}}的performance远不如ng-bind，只是用起来很方便。</p>
+<p><strong>ng-bind</strong></p>
+<p>ng-bind的行为和{{}}差不多，只是我们可以用这个指令来避免FOUC(Flash Of Unrendered Content)，也就是未渲染导致的闪烁。</p>
+<p><strong>ng-cloak</strong></p>
+<p>ng-cloak也可以为我们解决FOUC。 ng-cloak会将内部元素隐藏，直到路由调用对应的页面。</p>
+<p><strong>ng-if</strong></p>
+<p>如果ng-if中的表达式为false，则对应的元素整个会从DOM中移除而非隐藏，但审查元素时你可以看到表达式变成注释了。<br />
+如果相进行隐藏，可以使用ng-hide。</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="41401" class="copybut" id="copybut41401" onclick="doCopy('code41401')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code41401"><br />
+&lt;div ng-if="1+1===3"&gt;<br />
+&nbsp;&nbsp;&nbsp; 无法审查到该元素<br />
+&lt;/div&gt;<br />
+&lt;div ng-hide="1+1==2"&gt;<br />
+&nbsp;&nbsp;&nbsp; 可审查<br />
+&lt;/div&gt;<br />
+</div></p>
+<p><strong>ng-switch</strong></p>
+<p>单独使用没什么意思，下面是例子:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="65564" class="copybut" id="copybut65564" onclick="doCopy('code65564')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code65564"><br />
+&lt;div ng-switch on="1+1"&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;p ng-switch-default&gt;0&lt;/p&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;p ng-switch-when="1"&gt;1&lt;/p&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;p ng-switch-when="2"&gt;2&lt;/p&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;p ng-switch-when="3"&gt;3&lt;/p&gt;<br />
+&lt;/div&gt;<br />
+</div></p>
+<p><strong>ng-repeat</strong></p>
+<p>不明白为毛不叫iterate，总之是遍历集合，给每个元素生成模板实例，每个实例的作用域中可以用一些特殊属性，如下:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="93076" class="copybut" id="copybut93076" onclick="doCopy('code93076')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code93076"><br />
+$index<br />
+$first<br />
+$last<br />
+$middle<br />
+even<br />
+odd<br />
+</div></p>
+<p>不用特地解释，这些都很容易看出来是干什么的，下面是一个例子:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="57423" class="copybut" id="copybut57423" onclick="doCopy('code57423')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code57423"><br />
+&lt;ul&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;li ng-repeat="char in <br />
+&nbsp;&nbsp;&nbsp; [{'alphabet': 'K'},<br />
+&nbsp;&nbsp;&nbsp; {'alphabet': 'A'},<br />
+&nbsp;&nbsp;&nbsp; {'alphabet': 'V'},<br />
+&nbsp;&nbsp;&nbsp; {'alphabet': 'L'},<br />
+&nbsp;&nbsp;&nbsp; {'alphabet': 'E'},<br />
+&nbsp;&nbsp;&nbsp; {'alphabet': 'Z'}] " ng-show="$even"&gt;{{char.alphabet}}&lt;/li&gt;<br />
+&lt;/ul&gt;<br />
+</div></p>
+<p><strong>ng-href</strong></p>
+<p>起初我在一个文本域中弄了个ng-model，然后像这样&lt;a href="{{myUrl}}"&gt;在href里面写了进去。<br />
+其实这样href和ng-href看不出什么区别，所以我们可以试试这样:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="90940" class="copybut" id="copybut90940" onclick="doCopy('code90940')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code90940"><br />
+&lt;ul ng-init="myHref=''"&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;li&gt;&lt;a ng-href="{{ myHref }}"&gt;{{linkText}}&lt;/a&gt;&lt;/li&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;li&gt;&lt;a href="{{ myHref }}"&gt;可以点击，但不一定是正确的地址&lt;/a&gt;&lt;/li&gt;<br />
+&lt;/ul&gt;<br />
+.run(function($rootScope, $timeout) {<br />
+&nbsp;&nbsp;&nbsp; $rootScope.linkText = '尚未加载，您无法点击';<br />
+&nbsp;&nbsp;&nbsp; $timeout(function() {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $rootScope.linkText = '请点击'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $rootScope.myHref = 'http://google.com';<br />
+&nbsp;&nbsp;&nbsp; }, 2000);<br />
+})<br />
+</div></p>
+<p><strong>ng-src<br />
+</strong></p>
+<p>大同小异，即表达式生效前不要加载该资源。<br />
+例子(ps: 图片不错! ):</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="63832" class="copybut" id="copybut63832" onclick="doCopy('code63832')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code63832"><br />
+&lt;img ng-src="{{imgSrc}}"/&gt;<br />
+.run(function($rootScope, $timeout) {<br />
+&nbsp;&nbsp;&nbsp; $timeout(function() {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $rootScope.imgSrc = 'https://octodex.github.com/images/daftpunktocat-guy.gif';<br />
+&nbsp;&nbsp;&nbsp; }, 2000);<br />
+})<br />
+</div></p>
+<p><strong>ng-class</strong></p>
+<p>用作用域中的对象动态改变类样式，例如:</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="71713" class="copybut" id="copybut71713" onclick="doCopy('code71713')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code71713"><br />
+&lt;style&gt;<br />
+&nbsp;&nbsp;&nbsp; .red {background-color: red;}<br />
+&nbsp;&nbsp;&nbsp; .blue {background-color: blue;}<br />
+&lt;/style&gt;<br />
+&lt;div ng-controller="CurTimeController"&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;button ng-click="getCurrentSecond()" &gt;Get Time!&lt;/button&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;p ng-class="{red: x%2==0,blue: x%2!=0}" &gt;Number is: {{ x }}&lt;/p&gt;<br />
+&lt;/div&gt;<br />
+.controller('CurTimeController', function($scope) {<br />
+&nbsp;&nbsp;&nbsp; $scope.getCurrentSecond = function() {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $scope.x = new Date().getSeconds();<br />
+&nbsp;&nbsp;&nbsp; };<br />
+})&nbsp; <br />
+</div></p>
+<p>以上就是本文所述的全部内容了，希望大家能够喜欢。</p>
+
+</div><!--endmain-->
+<div class="art_xg">
+<h4>您可能感兴趣的文章:</h4><ul><li><a href="/article/59478.htm" title="angular.foreach 循环方法使用指南" target="_blank">angular.foreach 循环方法使用指南</a></li><li><a href="/article/59544.htm" title="angular.element方法汇总" target="_blank">angular.element方法汇总</a></li><li><a href="/article/58229.htm" title="angularjs指令中的compile与link函数详解" target="_blank">angularjs指令中的compile与link函数详解</a></li><li><a href="/article/59538.htm" title="angularJS中$apply()方法详解" target="_blank">angularJS中$apply()方法详解</a></li><li><a href="/article/60757.htm" title="AngularJs根据访问的页面动态加载Controller的解决方案" target="_blank">AngularJs根据访问的页面动态加载Controller的解决方案</a></li><li><a href="/article/60490.htm" title="jQuery和AngularJS的区别浅析" target="_blank">jQuery和AngularJS的区别浅析</a></li><li><a href="/article/58242.htm" title="AngularJS入门教程之学习环境搭建" target="_blank">AngularJS入门教程之学习环境搭建</a></li><li><a href="/article/76845.htm" title="AngularJS 日期格式化详解" target="_blank">AngularJS 日期格式化详解</a></li><li><a href="/article/60444.htm" title="AngularJS实现表单验证" target="_blank">AngularJS实现表单验证</a></li><li><a href="/article/95185.htm" title="利用Angular.js限制textarea输入的字数" target="_blank">利用Angular.js限制textarea输入的字数</a></li></ul>
+</div>
+<div class="lbd clearfix">
+<span id="art_down" class="jbTestPos"></span>
+</div>
+<div id="shoucang"></div>
+<div class="tags mt10">
+<strong>Tags：</strong><a href="http://img.jb51.net/tag/AngularJS/1.htm" target="_blank" title="搜索关于AngularJS的文章">AngularJS</a> <a href="http://img.jb51.net/tag/%C4%DA%D6%C3%D6%B8%C1%EE/1.htm" target="_blank" title="搜索关于内置指令的文章">内置指令</a> 
+</div>
+<DIV class="relatedarticle clearfix mt5">
+<H2>相关文章</H2>
+<ul><li><span>2016-09-09</span><a href="/article/92597.htm" title="AngularJS 所有版本下载地址" target="_blank">AngularJS 所有版本下载地址</a></li><li><span>2016-09-09</span><a href="/article/91725.htm" title="AngularJs bootstrap搭载前台框架——准备工作" target="_blank">AngularJs bootstrap搭载前台框架——准备工作</a></li><li><span>2016-09-09</span><a href="/article/92969.htm" title="Angular ng-class详解及实例代码" target="_blank">Angular ng-class详解及实例代码</a></li><li><span>2016-04-04</span><a href="/article/82073.htm" title="AngularJs 弹出模态框（model）" target="_blank">AngularJs 弹出模态框（model）</a></li><li><span>2016-09-09</span><a href="/article/91974.htm" title="AngularJS实现标签页的两种方式" target="_blank">AngularJS实现标签页的两种方式</a></li><li><span>2014-12-12</span><a href="/article/58246.htm" title="什么是 AngularJS？AngularJS简介" target="_blank">什么是 AngularJS？AngularJS简介</a></li><li><span>2015-06-06</span><a href="/article/68171.htm" title="移除AngularJS下URL中的#字符的方法" target="_blank">移除AngularJS下URL中的#字符的方法</a></li><li><span>2016-09-09</span><a href="/article/92122.htm" title="利用Angularjs实现幻灯片效果" target="_blank">利用Angularjs实现幻灯片效果</a></li><li><span>2015-12-12</span><a href="/article/76135.htm" title="AngularJS实现表单手动验证和表单自动验证" target="_blank">AngularJS实现表单手动验证和表单自动验证</a></li><li><span>2015-01-01</span><a href="/article/59478.htm" title="angular.foreach 循环方法使用指南" target="_blank">angular.foreach 循环方法使用指南</a></li></ul>
+</DIV>
+<div class="lbd clearfix mt5">
+<span id="art_down2" class="jbTestPos"></span>
+</div>
+<a href="#comments"></a>
+<div id="comments">
+<H2>最新评论</H2>
+<div class="pd5"><div id="SOHUCS" sid="art_60733"></div></div>
+</div>
+      </div><!--endborder-->
+      </div><!--end fl-->
+      
+<div class="w300 fr">
+<div class="r300 clearfix"><span id="side_up" class="jbTestPos"></span></div>
+<DIV class="tabTitleBar mt10 bgf borderTblue">
+<DIV class="borderTnone pb10 YaHei">
+<H4 class="blue">大家感兴趣的内容</H4>
+<UL class="newsList newList-in">
+<li><EM class="no1">1</EM><a href="/article/59478.htm" title="angular.foreach 循环方法使用指南" target="_blank">angular.foreach 循环方法使用指</a></li><li><EM class="no2">2</EM><a href="/article/60733.htm" title="AngularJS内置指令" target="_blank">AngularJS内置指令</a></li><li><EM class="no3">3</EM><a href="/article/59544.htm" title="angular.element方法汇总" target="_blank">angular.element方法汇总</a></li><li><EM class="no4">4</EM><a href="/article/58229.htm" title="angularjs指令中的compile与link函数详解" target="_blank">angularjs指令中的compile与link</a></li><li><EM class="no5">5</EM><a href="/article/59538.htm" title="angularJS中$apply()方法详解" target="_blank">angularJS中$apply()方法详解</a></li><li><EM class="no6">6</EM><a href="/article/60757.htm" title="AngularJs根据访问的页面动态加载Controller的解决方案" target="_blank">AngularJs根据访问的页面动态加载</a></li><li><EM class="no7">7</EM><a href="/article/60490.htm" title="jQuery和AngularJS的区别浅析" target="_blank">jQuery和AngularJS的区别浅析</a></li><li><EM class="no8">8</EM><a href="/article/58242.htm" title="AngularJS入门教程之学习环境搭建" target="_blank">AngularJS入门教程之学习环境搭建</a></li><li><EM class="no9">9</EM><a href="/article/76845.htm" title="AngularJS 日期格式化详解" target="_blank">AngularJS 日期格式化详解</a></li><li><EM class="no10">10</EM><a href="/article/60444.htm" title="AngularJS实现表单验证" target="_blank">AngularJS实现表单验证</a></li>
+</UL>
+</DIV>
+</DIV>
+<div class="r300 clearfix mt10"><span id="idctu" class="jbTestPos"></span></div>
+<DIV class="tabTitleBar mt10 bgf borderTblue">
+<DIV class="borderTnone pb10 YaHei">
+<H4 class="blue">最近更新的内容</H4>
+<UL class="newsListA">
+<ul><li><a href="/article/90943.htm" title="angularjs 源码解析之injector" target="_blank">angularjs 源码解析之injector</a></li><li><a href="/article/78890.htm" title="AngularJS 使用 UI Router 实现表单向导" target="_blank">AngularJS 使用 UI Router 实现表单向导</a></li><li><a href="/article/68171.htm" title="移除AngularJS下URL中的#字符的方法" target="_blank">移除AngularJS下URL中的#字符的方法</a></li><li><a href="/article/91316.htm" title="总结十个Angular.js由浅入深的面试问题" target="_blank">总结十个Angular.js由浅入深的面试问题</a></li><li><a href="/article/85072.htm" title="深入理解angularjs过滤器" target="_blank">深入理解angularjs过滤器</a></li><li><a href="/article/89551.htm" title="AngularJS基础 ng-class-odd 指令示例" target="_blank">AngularJS基础 ng-class-odd 指令示例</a></li><li><a href="/article/67944.htm" title="整理AngularJS中的一些常用指令" target="_blank">整理AngularJS中的一些常用指令</a></li><li><a href="/article/77089.htm" title="AngularJS进行性能调优的7个建议" target="_blank">AngularJS进行性能调优的7个建议</a></li><li><a href="/article/81405.htm" title="不能不知道的10个angularjs英文学习网站" target="_blank">不能不知道的10个angularjs英文学习网站</a></li><li><a href="/article/68165.htm" title="举例详解AngularJS中ngShow和ngHide的使用方法" target="_blank">举例详解AngularJS中ngShow和ngHide的使用</a></li></ul>
+</UL>
+</DIV>
+</DIV>   
+<div class="r300 clearfix mt10"><span id="idctu1" class="jbTestPos"></span></div>
+<DIV class="tabTitleBar mt10 bgf borderTblue">
+<DIV class="borderTnone pb10 YaHei">
+<H4 class="blue">常用在线小工具</H4>
+<ul class="newsListA"><span id="bctools" class="jbTestPos"></span></ul>
+</DIV>
+</DIV>
+<div class="r300 clearfix mt10" id="idctu2"><span id="idctu2" class="jbTestPos"></span></div>
+<div class="mt10 rFixedBox">
+<span id="r_2" class="jbTestPos"></span>
+</div>
+      
+      
+      </div><!--end fr-->
+      </div>
+</div><!--end content-->
+<div id="footer">
+<div class="main clearfix">
+<p>
+<a href="http://www.jb51.net/about.htm" target="_blank">关于我们</a> - 
+<a href="http://www.jb51.net/support.htm" target="_blank">广告合作</a> - 
+<a href="http://www.jb51.net/linkus.htm" target="_blank">联系我们</a> -  
+<a href="http://www.jb51.net/sm.htm" target="_blank">免责声明</a> -  
+<a href="http://www.jb51.net/sitemap.htm" target="_blank">网站地图</a> - 
+<a href="tencent://message/?uin=461478385&Site=http://www.jb51.net" target="_blank">投诉建议</a> - 
+<a href="http://www.jb51.net/up.htm" target="_blank">在线投稿</a>
+</p>
+<p>&copy;CopyRight 2006-2016 JB51.Net Inc All Rights Reserved. 脚本之家 版权所有</p>
+</div>
+</div><!--end footer-->
+<link type="text/css" rel="stylesheet" href="/jslib/syntaxhighlighter/styles/shCore.css" />
+<link type="text/css" rel="Stylesheet" href="/jslib/syntaxhighlighter/styles/shThemeDefault.css" />
+<script type="text/javascript" src="/jslib/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="/jslib/syntaxhighlighter/scripts/shAutoloader.js"></script>
+<script type="text/javascript"> 
+if (top.location != self.location)top.location=self.location;
+$('#content').find('img').each(function(){
+        var img = this;
+        if (img.width >= 650){
+            img.style.width = "650px";
+            img.style.height = "auto";
+            //$(img).removeAttr('height');
+            var aTag = document.createElement('a');
+            aTag.href = img.src;
+			aTag.target="_blank";
+            $(aTag).addClass('bPic')
+            .insertAfter(img).append(img)
+          }
+    });
+ $(window).scroll(function()
+    {	
+    	//rFixedBox跟随滚动
+    	var h = $(window).height();
+        var top = $(window).scrollTop();
+    	var rFixedBox = $('.rFixedBox').prev().offset();
+        var fixedTop = rFixedBox.top;
+		
+        if(top>=fixedTop+344)
+        {
+			var h1 = parseInt($('#content').children('.main').height());
+			if(parseInt(top) + 340 < h1){
+				$('.rFixedBox').css({'position':'fixed','top': 0});
+			}else{
+				$('.rFixedBox').css({'position':'absolute','top': h1-510});
+			}
+        }
+        else
+        {
+            $('.rFixedBox').css({'position':'static', 'top':0});   
+        }	
+       /* return true;*/
+    });
+SyntaxHighlighter.autoloader(
+	'applescript			/jslib/syntaxhighlighter/scripts/shBrushAppleScript.js',
+	'actionscript3 as3		/jslib/syntaxhighlighter/scripts/shBrushAS3.js',
+	'bash shell				/jslib/syntaxhighlighter/scripts/shBrushBash.js',
+	'coldfusion cf			/jslib/syntaxhighlighter/scripts/shBrushColdFusion.js',
+	'cpp c					/jslib/syntaxhighlighter/scripts/shBrushCpp.js',
+	'obj-c objc				/jslib/syntaxhighlighter/scripts/shBrushObjC.js',
+	'c# c-sharp csharp		/jslib/syntaxhighlighter/scripts/shBrushCSharp.js',
+	'css					/jslib/syntaxhighlighter/scripts/shBrushCss.js',
+	'delphi pascal			/jslib/syntaxhighlighter/scripts/shBrushDelphi.js',
+	'diff patch pas			/jslib/syntaxhighlighter/scripts/shBrushDiff.js',
+	'erl erlang				/jslib/syntaxhighlighter/scripts/shBrushErlang.js',
+	'groovy					/jslib/syntaxhighlighter/scripts/shBrushGroovy.js',
+	'haxe hx				/jslib/syntaxhighlighter/scripts/shBrushHaxe.js',
+	'java					/jslib/syntaxhighlighter/scripts/shBrushJava.js',
+	'jfx javafx				/jslib/syntaxhighlighter/scripts/shBrushJavaFX.js',
+	'js jscript javascript	/jslib/syntaxhighlighter/scripts/shBrushJScript.js',
+	'perl pl				/jslib/syntaxhighlighter/scripts/shBrushPerl.js',
+	'php					/jslib/syntaxhighlighter/scripts/shBrushPhp.js',
+	'text plain				/jslib/syntaxhighlighter/scripts/shBrushPlain.js',
+	'py python				/jslib/syntaxhighlighter/scripts/shBrushPython.js',
+	'ruby rails ror rb		/jslib/syntaxhighlighter/scripts/shBrushRuby.js',
+	'scala					/jslib/syntaxhighlighter/scripts/shBrushScala.js',
+	'sql					/jslib/syntaxhighlighter/scripts/shBrushSql.js',
+	'vb vbnet				/jslib/syntaxhighlighter/scripts/shBrushVb.js',
+	'ps powershell			/jslib/syntaxhighlighter/scripts/shBrushPowerShell.js',
+	'xml xhtml xslt html	/jslib/syntaxhighlighter/scripts/shBrushXml.js'
+);
+SyntaxHighlighter.all();
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script type="text/javascript" src='http://img.jb51.net/js/jbLoader.js'></script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<div id="tongji">
+<script type="text/javascript" src="http://img.jb51.net/inc/tongji.js"></script>
+<script>
+(function(){
+var appid = 'cyrHH3dwi',
+conf = 'prod_1dc5dc80970106099d43fe242b7465fc';
+var doc = document,
+s = doc.createElement('script'),
+h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+s.type = 'text/javascript';
+s.charset = 'utf-8';
+s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+h.insertBefore(s,h.firstChild);
+window.SCS_NO_IFRAME = true;
+})();
+</script>
+</div>
+<script type="text/javascript" src="http://www.jb51.net/pl.asp?id=60733"></script>
+<script type="text/javascript" charset="utf-8" src="http://changyan.itc.cn/js/??lib/jquery.js,changyan.labs.js?appid=cyrEjJlIw"></script>
+</body>
+</html>
+<!-- published at 2016-10-20 8:29:33By dxycms qq:461478385  -->

@@ -1,0 +1,12 @@
+HashSet的底层是用HashMap实现的，add/remove方法实际上调用的是map的put/remove方法，并把需要添加的对象作为map的Key，因为Key是不可重复的，所以
+也就实现了Set的不可重复性，jdk源码如下:
+
+public boolean add(E paramE) {
+    return (this.map.put(paramE, PRESENT) == null); //所有value都一样
+}
+
+public boolean remove(Object paramObject){
+    return (this.map.remove(paramObject) == PRESENT);
+}
+
+其中map的value放入的是在HashSet中声明的Object对象：private static final Object PRESENT = new Object();

@@ -1,0 +1,66 @@
+一. Java的类加载器是用来把类装载进JVM中，Classloader有3个层次结构：
+Bootstap Classloader --> Extension Classloader --> System Classloader(Application Classloader)
+
+1. Bootstap Classloader:  用C++编写，装载Java平台的核心类库，是最底层的Classloader,无法直接获取。
+2. Extension Classloader: 用来加载导入的jar包。
+3. System Classloader: 最常用，用来加载classpath下的类和资源文件。
+4. Custom ClassLoader: 可以自定义ClassLoader, 一般都是通过继承ClassLoader类
+
+
+二. 双亲委托模型:
+ExtClassLoader和AppClassLoader都继承了URLClassLoader,URLClassLoader继承了抽象类ClassLoader。ClassLoader中的loadClass方法
+实现了双亲委托模型(Parent Delegation),所以ExtClassLoader和AppClassLoader都实现了双亲委托模型,所以如果不想实现双亲委托模型
+就需要重写loadClass方法，如果想实现就重写findClass方法即可。
+
+双亲委托: 当我们自己有一个类需要加载到JVM时，默认用的是AppClassLoader，而AppClassLoader会去找它的父亲(通过loadClass方法)
+ExtClassLoader来加载，ExtClassLoader又会去找它的父亲BootStrapClassLoader(最顶级)来加载,这时候BootStrapClassLoader会在自己
+指定定义的路径下($JAVA_HOME/jre/lib下面的类库(或者通过参数-Xbootclasspath指定))查看该类是否已经被加载过，没加载过就会尝试
+自己去加载,但是指定路径下因为没有该类，所以加载失败，这时候会返回给ExtClassLoader来加载，同理这时候ExtClassLoader会在自己
+指定定义的路径下($JAVA_HOME/jre/lib/ext下的类库(或者通过参数-Djava.ext.dirs指定))查看该类是否已经被加载过，没加载过就会返
+回给AppClassLoader来加载.
+
+
+三. JVM中的ClassLoader的结构:
+下面就让我们来看看JVM是如何来为我们来建立类加载器的结构的：
+sun.misc.Launcher，顾名思义，当你执行java命令的时候，JVM会先使用bootstrap classloader载入并初始化一个Launcher，执行下来代码：
+  System.out.println("the Launcher's classloader is "+sun.misc.Launcher.getLauncher().getClass().getClassLoader());
+结果为：
+  the Launcher's classloader is null (因为是用bootstrap classloader加载,所以class loader为null)
+Launcher 会根据系统和命令设定初始化好class loader结构，JVM就用它来获得extension classloader和system classloader,并载入所有的
+需要载入的Class，最后执行java命令指定的带有静态的main方法的Class。extension classloader实际上是sun.misc.Launcher$ExtClassLoader
+类的一个实例，system classloader实际上是sun.misc.Launcher$AppClassLoader类的一个实例。并且都是 java.NET.URLClassLoader的子类。
+
+让我们来看看Launcher初试化的过程的部分代码。
+
+Launcher的部分代码：
+public class Launcher  {
+   public Launcher() {
+       ExtClassLoader extclassloader;
+       try {
+           //初始化extension classloader
+           extclassloader = ExtClassLoader.getExtClassLoader();
+       } catch(IOException ioexception) {
+           throw new InternalError("Could not create extension class loader");
+       }
+       try {
+           //初始化system classloader，parent是extension classloader
+           loader = AppClassLoader.getAppClassLoader(extclassloader);
+       } catch(IOException ioexception1) {
+           throw new InternalError("Could not create application class loader");
+       }
+       //将system classloader设置成当前线程的context classloader（将在后面加以介绍）
+       Thread.currentThread().setContextClassLoader(loader);
+       ......
+   }
+   public ClassLoader getClassLoader() {
+       //返回system classloader
+       return loader;
+   }
+}
+
+
+四. 获取Classloader(System Classloader)下的类或资源文件的输入流:
+
+	this.getClass().getClassLoader().getResourceAsStream("classpath:xxx.xxx.java(properties)");
+
+    

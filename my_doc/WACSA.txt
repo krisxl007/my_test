@@ -1,0 +1,12 @@
+account: wacsacom
+password: @Curtin14667745
+
+Site URL: http://wacsa.com/WordPress/
+Login URL: http://wacsa.com/WordPress/wp-admin
+Username: zhukongyang@hotmail.com
+Password: LsBcG64w0AT
+
+FTP 主机：box755.bluehost.com
+用户名：wacsacom
+密码：@Curtin14667745
+

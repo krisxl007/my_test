@@ -1,0 +1,44 @@
+===========================================
+JDK7和之前版本：用Segment来实现的分段锁技术
+-------------------------------------------
+内部类Segment继承了ReentryLock，每个Segment相当于一个Hashtable，然后利用锁定每个Segment实现锁分离，提高效率。Segment的大小由concurrencyLevel决定。每个Segment中的
+bucket装的是HashEntry<K,V>(HashMap中的叫Entry), 大小由ConcurrentHashMap的构造方法初始化。
+对于一个key，需要经过三次hash操作，才能最终定位这个元素的位置，这三次hash分别为：
+1.对于一个key，先进行一次hash操作，得到hash值h1，也即h1 = hash1(key)；
+2.将得到的h1的高几位进行第二次hash，得到hash值h2，也即h2 = hash2(h1高几位)，通过h2能够确定该元素的放在哪个Segment；
+3.将得到的h1进行第三次hash，得到hash值h3，也即h3 = hash3(h1)，通过h3能够确定该元素放置在哪个HashEntry。
+
+ConcurrentHashMap中的put()方法需要加锁，get()方法通过读取volatile的value值，所以不需要加锁，size()方法需要遍历所有的Segments来获取大小。
+
+扩容: ConcurrentHashMap的扩容并不是对全部Segments扩容，而是只会针对单个Segment来扩容，当调用put()方法时，实际上是找到了对应的Segment后，调用该Segment的put()方法，并
+检查插入后该Segment的大小是否超过了该Segment的threshold，如果超过了就会调用rehash()方法来扩容.
+
+
+=====================================================
+JDK8版本：取消Segment,用CAS技术和锁定单个bucket的方式
+-----------------------------------------------------
+改进一：取消segments字段，直接采用transient volatile Node<K,V>[] table保存数据，采用table数组元素作为锁，从而实现了对当前一行数据进行加锁，进一步减少并发冲突的概率。
+
+改进二：将原先table数组＋单向链表的数据结构，变更为table数组＋单向链表＋红黑树的结构。对于hash表来说，最核心的能力在于将key hash之后能均匀的分布在数组中。如果hash之后
+散列的很均匀，那么table数组中的每个队列长度主要为0或者1。但实际情况并非总是如此理想，虽然ConcurrentHashMap类默认的加载因子为0.75，但是在数据量过大或者运气不佳的情况下，
+还是会存在一些队列长度过长的情况，如果还是采用单向列表方式，那么查询某个节点的时间复杂度为O(n)；因此，对于个数超过8(默认值)的列表，jdk1.8中采用了红黑树的结构，那么查询
+的时间复杂度可以降低到O(logN)，可以改进性能。
+
+扩容：调用的是transfer()方法，JDK8的ConcurrentHashMap在以下两种情况下会触发transfer()方法来扩容：
+1、如果新增节点之后，所在链表的元素个数达到了阈值 8，则会调用treeifyBin方法把链表转换成红黑树，不过在结构转换之前，会对数组长度进行判断，如果数组长度n小于阈值
+MIN_TREEIFY_CAPACITY，默认是64，则会调用tryPresize方法把数组长度扩大到原来的两倍，并触发transfer方法，重新调整节点的位置。
+
+2、新增节点之后，会调用addCount方法记录元素个数，并检查是否需要进行扩容，当数组元素个数达到阈值时，会触发transfer方法，重新调整节点的位置。
+
+整个扩容操作分为两个部分：
+1.第一部分是构建一个nextTable,它的容量是原来的两倍，这个操作是由第一个进去的线程完成的。
+2.第二个部分就是将原来table中的元素复制到nextTable中，这里允许多线程进行操作。
+
+它的大体思想就是遍历、复制的过程。首先根据运算得到需要遍历的次数i，然后利用tabAt方法获得i位置的元素：
+1.如果这个位置为空，就在原table中的i位置放入forwardNode节点，当有另个一线程需要put()的时候，要操作的bin如果是一个forwardNode，表示当前有别的线程正在进行扩容，此时当前
+  线程也会辅助复制(将原来table中的元素复制到nextTable中)
+2.如果这个位置是Node节点（fh>=0），如果它是一个链表的头节点，就构造一个反序链表，把他们分别放在nextTable的i和i+n的位置上，完成后把当前的Node节点设置为forwardNode节点，
+  告诉其它线程这个节点已经复制完成了
+3.如果这个位置是TreeBin节点（fh<0），也做一个反序处理，并且判断是否需要untreefi，把处理的结果分别放在nextTable的i和i+n的位置上，完成后把当前的Node节点设置为forwardNode
+  节点，告诉其它线程这个节点已经复制完成了
+4.遍历过所有的节点以后就完成了复制工作，这时让nextTable作为新的table，并且更新sizeCtl为新容量的0.75倍 ，完成扩容。

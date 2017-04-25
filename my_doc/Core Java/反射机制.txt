@@ -1,0 +1,45 @@
+一.Java反射机制中获取对象有三种方式：
+
+Person person = new Person();
+
+1. Class clazz = Person.class;
+
+2. Class clazz = person.getClass();
+
+3. Class clazz = Class.forName("com.xxx.xxx.Person");
+
+
+二.在Java类中有了带参数的构造方法，必须再声明一个无参数的构造方法来给反射使用，否则子类初始化该对象时会出错。
+
+
+三.利用反射拿到所有声明的方法(包括所有Public,protected,private的方法)：
+
+	Method methods[] = PrivateClass.class.getDeclaredMethods();
+
+	for(Method m : methods) {
+		if(m.getName().equals("privateMethodName")) {
+			m.setAccessible(true); //将该方法设成可访问，主要用于访问Private和Protected的方法。
+
+			PrivateClass p = new PrivateClass();
+			m.invoke(p,arg1,arg2); //调用该方法。
+		}
+	}
+
+
+四.利用发射拿到所声明的字段:
+
+	Field targetField = PrivateField.getClass.getDeclaredField("privateFieldName"); //也可以拿到所有声明的字段集合
+	targetField.setAccessible(true);
+
+	Object fieldType = targetField.getType();
+	return targetField.get(PrivateField);
+
+
+五.利用反射拿到构造方法:
+
+	Class<?> clazz = Class.forName("rtti.MyReflection");
+	Constructor<?>[] constructors = clazz.getConstructors();
+			
+	for(Constructor<?> constructor : constructors) {
+		System.out.println(constructor.toString());
+	}

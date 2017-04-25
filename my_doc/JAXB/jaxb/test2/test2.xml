@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<Logic>  
+    <sub1>  
+        <column name="sub1.col1" id="1" />
+        <column name="sub1.col2" id="2" />
+    </sub1>  
+    
+    <sub2>  
+        <column name="sub2.col1" id="1" />
+        <column name="sub2.col1" id="2" />
+    </sub2> 
+</Logic>  

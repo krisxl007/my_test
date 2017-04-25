@@ -1,0 +1,7 @@
+观察者模式的四个基本角色分别为：
+1.主题或被观察者接口(Subject)
+2.观察者接口(Observer)
+3.具体实现主题(Concrete Subject)
+4.具体实现观察者(Concrete Observer)
+
+在JDK中,已经给我们提供了被观察者接口(Observable)和观察者接口(Observer),当我们需要实现一个观察者模式的时候，可以使用这些接口来实现。

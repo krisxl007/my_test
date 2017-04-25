@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+	<title>静态页面树状结构展示</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+
+	<!-- 第一步：导入展示树状结构的js和css文件 -->
+	<script type="text/css"></script>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="jquery_treeview/jquery.treeview.js"></script>
+	<link rel="stylesheet" type="text/css" href="jquery_treeview/jquery.treeview.css">
+</head>
+
+
+<body>
+	<!-- 第二步：写树状结构数据 -->
+	<!-- ul是列表，li是行 -->
+
+	<ul id="tree">
+		<li>一级菜单1
+			<ul>
+				<li>二级菜单11
+						<ul>
+							<li>三级菜单111</li>
+							<li>三级菜单111</li>
+							<li>三级菜单111</li>
+						</ul>
+				</li>
+				<li>二级菜单12
+						<ul>
+							<li>三级菜单121</li>
+							<li>三级菜单122</li>
+						</ul>
+				</li>
+				<li>二级菜单13
+						<ul>
+							<li>三级菜单131</li>
+						</ul>
+				</li>
+			</ul>
+		</li>
+		<li>一级菜单2
+			<ul>
+				<li>二级菜单21
+						<ul>
+							<li>三级菜单211</li>
+							<li>三级菜单212</li>
+						</ul>
+				</li>
+				<li>二级菜单22
+						<ul>
+							<li>三级菜单221</li>
+						</ul>
+				</li>
+			</ul>
+		</li>
+		<li>一级菜单3
+			<ul>
+				<li>二级菜单31
+						<ul>
+							<li>三级菜单311</li>
+							<li>三级菜单312</li>
+						</ul>
+				</li>
+			</ul>
+		</li>
+	<ul>
+
+	<!-- 第三步：套入js树状结构效果 -->
+	<script type="text/javascript">
+		$("#tree").treeview();
+	</script>
+
+</body>
+</html>

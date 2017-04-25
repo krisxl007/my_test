@@ -1,0 +1,6 @@
+SSH整合就是spring与struts，spring与hibernate的整合：
+
+1.spring与struts整合：就是spring来管理struts，也就是每次struts向spring要action.整合成功后struts.xml的action的class可以直接
+  写类名(首字母小写)。
+
+2.spring与hibernate整合:就是让spring来注入hibernate的实例(SessionFactory和HibernateTemplate等)，以及声明式事务管理TransactionManager

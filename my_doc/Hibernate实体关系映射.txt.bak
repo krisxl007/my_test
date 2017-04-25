@@ -1,0 +1,135 @@
+实体关联分为单向关联和双向关联：
+单向关联：指实体A可以找到实体B(只有实体A里写private B b;)
+双向关联: 指实体A和B可以互相找到对方(既在A里写private B b; 也在B里写private A a;)
+
+'多' 和 '一'的关系：外键始终是在多一方生成('多'和'一'是针对实体的多还是一来说的，'多'是指实体类为多的一方，如一个组有多个用户，用户则为多一方)
+例如User(用户)和Role(岗位)：
+单向：
+1.当一个用户对应一个岗位时，User类里写：private Role role; Role类不用写
+2.当一个用户对应多个岗位时，User类里写：private Set<Role> roles = new HashSet(); Role类不用写
+
+双向：(必写：mappedBy = "对方属性",写在哪一方，该方就不会有外键)
+1.当一个用户对应一个岗位，一个岗位对应一个用户时，User类里写：private Role role; Role类里也写：private User user;
+2.当一个用户对应多个岗位，一个岗位对应一个用户时，User类里写：private Set<Role> roles = new HashSet(); Role类里写：private User user;
+3.当一个用户对应多个岗位，一个岗位也对应多个用户时，User类里写：private Set<Role> roles = new HashSet(); Role类里也写：private Set<User> users = new HashSet();
+
+
+
+1.一对一单向外键关联：@OneToOne
+例：User(用户)和Role(岗位),只在Uer一方写private Role role,并在Role的get方法上写: @OneToOne
+	@Entity
+	public class User {
+		private Long id;
+		private String name; 
+		private Role role;
+
+		@OneToOne
+		@JoinColumn(name="roleId") //Hibernate自动建表时会生成一个叫role_id的外键, @JoinColumn是设置外键名为roleId
+		public Role getRole() {
+			return role;
+		}
+	}
+
+
+2.一对一双向外键关联：@OneToOne
+例：User(用户)和Role(岗位),在Uer一方写private Role role,并在Role也写private User user,双方的get方法上写: @OneToOne
+	@Entity
+	public class User {
+		private Long id;
+		private String name; 
+		private Role role;
+
+		@OneToOne
+		@JoinColumn(name="roleId") //Hibernate自动建表时会生成一个叫role_id的外键, @JoinColumn是设置外键名为roleId
+		public Role getRole() {
+			return role;
+		}
+	}
+
+	@Entity
+	public class Role {
+		private long id;
+		private String name;
+		private User user;
+		
+		@OneToOne(mappedBy="role") //双向关联必写mappedBy,该方没有外键生成
+		public User getUser() {
+			return user;
+		}
+	}
+
+
+3.多对一单向外键关联：@ManyToOne
+例：User(用户)和Role(岗位),一个用户只有一个岗位，一个岗位有多个用户，User为多的一方，因为是单向，所以只写User一方
+	@Entity
+	public class User {
+		private Long id;
+		private String name; 
+		private Role role;
+
+		@ManyToOne
+		public Role getRole() {
+			return role;
+		}
+	}
+
+
+4.一对多单向外键关联：@OneToMany
+例：User(用户)和Role(岗位),一个用户只有一个岗位，一个岗位有多个用户，Role为一的一方，因为是单向，所以只写Role一方
+	@Entity
+	public class Role {
+		private long id;
+		private String name;
+		private User user;
+		
+		@OneToMnay
+		@JoinColumn(name="userId") //外键始终生成在多的一方，一对多时必写JoinColumn，否则会生成中间表
+		public User getUser() {
+			return user;
+		}
+	}
+
+5.一对多和多对一双向外键关联:@OneToMany@ManyToOne
+例：User(用户)和Role(岗位),一个用户只有一个岗位，一个岗位有多个用户，Role为一的一方，因为是双向，所以两边类都要写
+	@Entity
+	public class User {
+		private Long id;
+		private String name; 
+		private Role role;
+
+		@ManyToOne
+		public Role getRole() {
+			return role;
+		}
+	}
+	
+	@Entity
+	public class Role {
+		private long id;
+		private String name;
+		private Set<User> users = new HashSet();
+		
+		@OneToMany(mappedBy="role")   //双向必写mappedBy
+		public Set<User> getUsers() {
+			return users;
+		}
+	}
+
+
+6.多对多单向外键关联:@ManyToMany
+例：User(用户)和Role(岗位),一个用户有多个岗位，一个岗位也有多个用户，因为是单向向，所以只写Role一方
+	@Entity
+	public class Role {
+		private long id;
+		private String name;
+		private Set<User> users = new HashSet();
+		
+		@ManyToMany
+		public Set<User> getUsers() {
+			return users;
+		}
+	}
+
+
+
+

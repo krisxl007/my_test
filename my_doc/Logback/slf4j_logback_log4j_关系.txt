@@ -1,0 +1,1 @@
+slf4j和jdk自带的common-logging,只是为日志的实现提供的一个统一接口，还需要日志实现的支持，如log4j和logback就是实现

@@ -1,0 +1,7 @@
+M:model(实体类),service(增删改查方法，可用serviceImpl调用DaoImpl来实现),util(工具),Dao(操作数据库，可用DaoImpl实现)
+V:表现层(jsp页面)
+C:action(用action来调用M层)
+
+三层架构：展现层View调用Service层的接口(具体实现类实现接口),Service层调用Dao层的接口(具体实现类实现接口)
+View --> Service(interface) --> Dao(interface)
+  

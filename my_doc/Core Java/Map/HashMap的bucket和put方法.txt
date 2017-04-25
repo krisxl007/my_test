@@ -1,0 +1,56 @@
+HashMap中的bucket如下，bucket在初始化时默认值为0，只有在第一次执行put方法时才会被通过resize()方法扩容：
+
+transient Entry<K,V>[] table = (Entry<K,V>[]) EMPTY_TABLE; //jdk1.7,用链表方式来处理Hash Collision
+transient Node<K,V>[] table; //jdk1.8,增加了TreeNode的方式来提高查找效率
+
+
+put()方法调用了putVal()方法:
+    final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) { //hash是再哈希(通过hash()方法)后的哈希值
+	
+        Node<K,V>[] tab; Node<K,V> p; int n, i;
+        if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;   //调用resize()方法扩容
+        if ((p = tab[i = (n - 1) & hash]) == null)    //(n - 1) & hash就是通过位运算来计算bucket的下标值
+            tab[i] = newNode(hash, key, value, null);
+        ...
+    }
+
+
+hash()方法如下,通过具体对象的hashCode()后进行亦或和低位位移，减少Hash Collision:
+    static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+	
+	
+resize()方法如下，当数组的大小达到阀值threshold(capacity * loadFactor)时，会调用resize()方法来扩容，大小是原来的两倍:
+	void resize(int newCapacity) {
+        Entry[] oldTable = table;
+        int oldCapacity = oldTable.length;
+        if (oldCapacity == MAXIMUM_CAPACITY) {
+            threshold = Integer.MAX_VALUE;
+            return;
+        }
+
+        Entry[] newTable = new Entry[newCapacity]; //new一个大小是原来两倍的数组
+        transfer(newTable, initHashSeedAsNeeded(newCapacity)); //把旧数组transfer到新数组上，如下
+        table = newTable;
+        threshold = (int)Math.min(newCapacity * loadFactor, MAXIMUM_CAPACITY + 1); //设置新的阀值
+    }
+	
+transfer()方法：
+	void transfer(Entry[] newTable, boolean rehash) {
+        int newCapacity = newTable.length;
+        for (Entry<K,V> e : table) {
+            while(null != e) {
+                Entry<K,V> next = e.next; //获取到e的第一个entry
+                if (rehash) {
+                    e.hash = null == e.key ? 0 : hash(e.key);
+                }
+                int i = indexFor(e.hash, newCapacity); //找到当前这条entry在新数组中的位置
+                e.next = newTable[i];
+                newTable[i] = e;
+                e = next; //将next赋值给新的数组
+            }
+        }
+    }

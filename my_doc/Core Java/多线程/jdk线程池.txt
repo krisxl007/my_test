@@ -1,0 +1,128 @@
+JDK自带的标准线程池接口是ExecutorService,其实现类如下:
+1.继承了抽象类AbstractExecutorService的实现:
+1)ThreadPoolExecutor
+2)ForkjoinPool
+3)DelegatedExecutorService
+
+2.实现了ScheduledExecutorService的实现:
+1)ScheduledExecutorService
+2)DelegatedScheduledExecutorService
+
+JDK的java.util.concurrent包下的工具类Executors提供了四种常用的线程池，其底层实现就是new上面的实现：
+1.newSingleThreadExecutor(用ThreadPoolExecutor): 创建一个单线程的线程池。这个线程池只有一个线程在工作，也就是相当于单线程串行执行所有任务。如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它。此线程池保证所有任务的执行顺序按照任务的提交顺序执行。
+2.newFixedThreadPool(用ThreadPoolExecutor): 创建固定大小的线程池。每次提交一个任务就创建一个线程，直到线程达到线程池的最大大小。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。
+3.newCachedThreadPool(用ThreadPoolExecutor): 创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程,那么就会回收部分空闲（60秒不执行任务）的线程，当任务数增加时，此线程池又可以智能的添加新线程来处理任务。此线程池不会对线程池大小做限制，线程池大小完全依赖于操作系统（或者说JVM）能够创建的最大线程大小。
+4.newScheduledThreadPool(用ScheduledExecutorService): 创建一个大小无限的线程池。此线程池支持定时以及周期性执行任务的需求。
+
+
+可以看到Executors提供的几种线程池中,很多都是用了ThreadPoolExecutor类来实现,其核心执行方法为execute(也可以用submit方法获取返回值,但底层也是调用execute):
+
+=======================================================================================================================================================
+ThreadPoolExecutor类的成员变量理解:
+=======================================================================================================================================================
+private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); //存放线程池状态,初始化后即为RUNNING状态
+private final BlockingQueue<Runnable> workQueue;              //任务缓存队列，当当前线程数等于大于核心池数时，就用来存放等待执行的任务
+private final ReentrantLock mainLock = new ReentrantLock();   //线程池的主要状态锁，对线程池状态（比如线程池大小、runState等）的改变都要使用这个锁
+private final HashSet<Worker> workers = new HashSet<Worker>();  //用来存放线程(即长工)
+private volatile long  keepAliveTime;    //线程(即短工)无任务后的最长存活时间   
+private volatile boolean allowCoreThreadTimeOut;   //是否允许为核心线程(即长工)设置存活时间
+private volatile int   corePoolSize;     //核心池(即长工)的大小（即线程池中的线程数目大于这个参数时，提交的任务会被放进任务缓存队列）
+private volatile int   maximumPoolSize;   //线程池最大能容忍的线程数
+private volatile int   poolSize;       //线程池中当前的线程数
+private volatile RejectedExecutionHandler handler; //任务拒绝策略
+private volatile ThreadFactory threadFactory;   //线程工厂，用来创建线程
+private int largestPoolSize;   //用来记录线程池中曾经出现过的最大线程数
+private long completedTaskCount;   //用来记录已经执行完毕的任务个数
+
+每个变量的作用都已经标明出来了，这里要重点解释一下corePoolSize、maximumPoolSize、largestPoolSize三个变量。
+corePoolSize在很多地方被翻译成核心池大小，其实我的理解这个就是线程池的大小。举个简单的例子：
+
+　　假如有一个工厂，工厂里面有10个工人，每个工人同时只能做一件任务。
+　　因此只要当10个工人中有工人是空闲的，来了任务就分配给空闲的工人做；
+　　当10个工人都有任务在做时，如果还来了任务，就把任务进行排队等待；
+　　如果说新任务数目增长的速度远远大于工人做任务的速度，那么此时工厂主管可能会想补救措施，比如重新招4个临时工人进来；
+　　然后就将任务也分配给这4个临时工人做；
+　　如果说着14个工人做任务的速度还是不够，此时工厂主管可能就要考虑不再接收新的任务或者抛弃前面的一些任务了。
+　　当这14个工人当中有人空闲时，而新任务增长的速度又比较缓慢，工厂主管可能就考虑辞掉4个临时工了，只保持原来的10个工人，毕竟请额外的工人是要花钱的。
+ 
+　　这个例子中的corePoolSize就是10，而maximumPoolSize就是14（10+4）。
+　　也就是说corePoolSize就是线程池大小，maximumPoolSize在我看来是线程池的一种补救措施，即任务量突然过大时的一种补救措施。
+　　不过为了方便理解，在本文后面还是将corePoolSize翻译成核心池大小。
+
+　　largestPoolSize只是一个用来起记录作用的变量，用来记录线程池中曾经有过的最大线程数目，跟线程池的容量没有任何关系。
+=======================================================================================================================================================
+
+execute()方法:
+public void execute(Runnable command) {
+        if (command == null)
+            throw new NullPointerException();
+        
+        int c = ctl.get();
+        if (workerCountOf(c) < corePoolSize) { //当当前线程数小于核心池数时，直接创建线程来执行该线程
+            if (addWorker(command, true))
+                return;
+            c = ctl.get();
+        }
+        if (isRunning(c) && workQueue.offer(command)) { //当前线程数大于核心池数时，判断线程仍处于Running状态，再将任务放到workQueue中
+            int recheck = ctl.get();
+            if (! isRunning(recheck) && remove(command)) //double check是否线程池还是处于运行状态(防止其他线程改变了线程池状态),不是就把任务移除并使用拒绝策略
+                reject(command);
+            else if (workerCountOf(recheck) == 0) //最后一种情况，发现目前是线程池关闭了，但是阻塞队列还有线程，这个时候新建工人去完成阻塞队列里面没有完成的工作（所以其直接任务参数为null）
+                addWorker(null, false);
+        }
+        else if (!addWorker(command, false)) //第三种情况，如果阻塞队列都满了（线程太多），那还是去新建工人完成任务吧 
+            reject(command); //如果无法再添加工人了(工人数已经大于最大线程数)，就使用拒绝策略
+    }
+
+=================================================================================================================================================================
+线程池中的任务都是交给Worker类的对象来执行的，Worker类是ThreadPoolExecutor类的内部类，也实现了Runnable接口，所以最重要的就是Run()方法，而Run()方法调用了runWorker():
+final void runWorker(Worker w) {
+        Thread wt = Thread.currentThread();
+        Runnable task = w.firstTask; //Worker类会拿传进来的第一个任务firstWorker当作自己的第一个任务，当为null时，会拿队列里等待的任务
+        w.firstTask = null;
+        w.unlock(); // allow interrupts
+        boolean completedAbruptly = true;
+        try {
+			//这里就是Worker类线程循环拿队列任务来执行的地方
+            while (task != null || (task = getTask()) != null) { 
+                w.lock();
+                
+                if ((runStateAtLeast(ctl.get(), STOP) ||
+                     (Thread.interrupted() &&
+                      runStateAtLeast(ctl.get(), STOP))) &&
+                    !wt.isInterrupted())
+                    wt.interrupt();
+                try {
+                    beforeExecute(wt, task);
+                    Throwable thrown = null;
+                    try {
+                        task.run();
+                    } catch (RuntimeException x) {
+                        thrown = x; throw x;
+                    } catch (Error x) {
+                        thrown = x; throw x;
+                    } catch (Throwable x) {
+                        thrown = x; throw new Error(x);
+                    } finally {
+                        afterExecute(task, thrown);
+                    }
+                } finally {
+                    task = null;
+                    w.completedTasks++;
+                    w.unlock();
+                }
+            }
+            completedAbruptly = false;
+        } finally {
+            processWorkerExit(w, completedAbruptly);
+        }
+    }
+
+=================================================================================================================================================================
+总结:
+
+1.如果当前线程池中的线程数目小于corePoolSize，则每来一个任务，就会创建一个线程去执行这个任务；
+2.如果当前线程池中的线程数目>=corePoolSize，则每来一个任务，会尝试将其添加到任务缓存队列当中，若添加成功，则该任务会等待空闲线程将其取出去执行；若添加失败（一般来说是任务缓存队列已满），则会尝试创建新的线程去执行这个任务；
+3.如果当前线程池中的线程数目达到maximumPoolSize，则会采取任务拒绝策略进行处理；
+4.如果线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止，直至线程池中的线程数目不大于corePoolSize；如果允许为核心池中的线程设置存活时间，那么核心池中的线程空闲时间超过keepAliveTime，线程也会被终止。
+=================================================================================================================================================================

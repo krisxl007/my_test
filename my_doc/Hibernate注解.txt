@@ -1,0 +1,3 @@
+@Entity 实体类 ( @table(name=_pid) 表名和类名不一样的时候用)
+@Id 主键
+@GeneratedValue 主键自动生成

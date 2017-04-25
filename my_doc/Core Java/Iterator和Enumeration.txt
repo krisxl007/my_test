@@ -1,0 +1,44 @@
+Iterator和Enumeration都是为了实现迭代的。
+
+
+枚举（Enumeration）接口是从以前版本遗留下来。在下面依次介绍Enumeration 和每一种从以前版本遗留下来的类。   
+Enumeration接口 
+Enumeration接口定义了可以对一个对象的类集中的元素进行枚举（一次获得一个）的方法。这个接口尽管没有被摈弃，但已经被Iterator所替 代。Enumeration对新程序来说是过时的。然而它仍被几种从以前版本遗留下来的类（例如Vector和Properties）所定义的方法使用， 被几种其他的API类所使用以及被目前广泛使用的应用程序所使用。
+   
+Enumeration指定下面的两个方法： 
+boolean hasMoreElements() 
+Object nextElement() 
+执行后，当仍有更多的元素可提取时，hasMoreElements()方法一定返回true。当所有元素都被枚举了，则返回false。 nextElement()方法将枚举中的下一个对象做为一个类属 Object的引用而返回。也就是每次调用nextElement()方法获得枚举中的下一个对象。调用例程必须将那个对象置为包含在枚举内的对象类型。
+对于Enumeration可以以Vector为例
+Vector里有很多对象，如果你要查看其中的所有对象，一个办法是用Vector的get(int index)方法，不过这样效率比较低，另外一个方法是用Vector的elements()方法返回一个Enumeration对象，用 Enumeration的hasMoreElements()方法向下移动并判断当前位置是否有对象，有则用nextElement()方法返回这个对象
+
+例如, 打印 vector v中的所有对象: 
+Enumeration e = v.elements() 
+while(e.hasMoreElements() )
+{
+System.out.println(e.nextElement());
+}
+
+另外还有个Iterator接口，和Enumeration是差不多的，不过名称比较短，通常推荐用Iterator
+Iterator
+对集合进行迭代的迭代器。迭代器代替了 Java Collections Framework 中的 Enumeration。Collections 接口中定义了 iterator 方法，用于返回在此 collection 的元素上进行迭代的迭代器。
+比较：
+1.Enumeration 枚举接口其实是一个比 Iterator 迭代器接口更早期的枚举集合中的元素的接口。
+2.Enumeration 虽然可能过时而被 Iterator 替代，但很多 servlet 还用到，所以还有学习的必要。
+3.迭代器允许调用方利用定义良好的语义在迭代期间从迭代器所指向的集合移除元素。
+4.方法名称得到了改进。
+
+转载地址:http://hi.baidu.com/bye0406/blog/item/211b541f0374aa67f624e484.html
+
+Iterator是一个集合的迭代器,通过Iterator访问接口就就不用关心集合的实现.
+Iterator接口中定义了三个方法:
+1.hasNext()
+是否还有下一个元素.
+2.next()
+返回下一个元素.
+3.remove()
+删除当前元素.
+只定义了简单的三个方法,这里要注意几点:
+1)Iterator和Enumeration的区别
+Iterator是用来替代Enumeration的,Enumeration中只定义了两个方法,不具备删除功能.
+2)调用next()方法后才可以调用remove()方法,而且每次调用next()后最多只能调用一次remove()方法,否则抛出IllegalStateException异常.

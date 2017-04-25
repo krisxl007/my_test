@@ -1,0 +1,8 @@
+1.当要使用多线程技术来锁定对象时(Synchronized或Lock)，锁定的对象必须"同一个对象"，才会排队等待。如果方法是Synchronized方法，说明该方法是线程安全的，同一个对象调用
+这个方法时，需要排队。
+
+2.JDK已经提供了一些thread safe的对象让我们使用，如ConcorrentHashMap,HashTable,AtomicString等等。
+
+3.Lock用于锁住一段代码，如锁住commit的代码，哪个线程先进来，就拿到这把锁，执行完代码后会unlock这把锁再给后面的线程用。
+
+4.ReentranceWriteReadLock: 读写锁用来锁定读和写的线程对象，读和读不互斥，读和写互斥，写和写互斥。

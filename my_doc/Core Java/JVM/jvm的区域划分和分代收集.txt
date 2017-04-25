@@ -1,0 +1,20 @@
+jvm区域总体分两类，heap和non-heap
+
+heap：Eden Space(伊甸园), Survivor Space(幸存者区), Tenured Gen(老年代-养老区) 
+non-heap：Code Cache(代码缓存区), Perm Gen(永久代), Jvm Stack(java虚拟机栈), Local Method Statck(本地方法栈)。
+
+HotSpot虚拟机GC算法采用分代收集算法：
+
+jvm把heap还分为young gen和old gen两部分:
+
+young gen: eden space和survivor space(有两块) --> minor gc在该区域回收，采用mark-sweep算法
+old gen: tenured gen  --> major gc在该区域回收，采用copy算法
+
+full gc在以上两个区域回收
+
+一个新new出来的对象，会被首先放在eden space, 当eden space不足时，会执行一次minor gc, 在young gen把无效的对象回收并把有效的对象放到
+survivor space上, 定时地gc还会对survivor space上的对象进行检查，长期有效的对象就会进入到old gen
+
+
+非heap区域中Perm Gen中放着类、方法的定义，jvm Stack区域放着方法参数、局域变量等的引用，方法执行顺序按照栈的先入后出方式。
+

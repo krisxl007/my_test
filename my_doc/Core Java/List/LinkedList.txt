@@ -1,0 +1,49 @@
+LinkedList底层是用Node来实现的，实例中保存着第一个节点first，最后一个节点last和节点的大小size：
+
+public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Deque<E>, Cloneable, Serializable {
+   transient int size;
+   transient Node<E> first;
+   transient Node<E> last;
+   ...
+   
+
+单向链表：Node只指向下一个Node
+双向链表：同时指向上一个Node和下一个Node
+
+下面是jdk源码中LinkedList中的Node的实现，是一个双向链表：
+
+private static class Node<E> {
+     E item; //存放对象用的
+     Node<E> next;
+     Node<E> prev;
+ 
+     Node(Node<E> paramNode1, E paramE, Node<E> paramNode2) {
+       this.item = paramE;
+       this.next = paramNode2;
+       this.prev = paramNode1;
+     }
+}
+
+
+在链表中缺少一个类似Array中的index,所以需要实现一个类似的功能来返回指定的Node，在jdk源码中的实现如下：
+
+Node<E> node(int paramInt) {
+     if (paramInt < this.size >> 1) { //为了挺高查找的性能，根据paramInt的大小来判断从first开始找还是last开始
+       localNode = this.first;
+       for (i = 0; i < paramInt; ++i)
+         localNode = localNode.next;
+       return localNode;
+     }
+     Node localNode = this.last;
+     for (int i = this.size - 1; i > paramInt; --i)
+       localNode = localNode.prev;
+     return localNode;
+}
+
+
+LinkedList中的一些方法的逻辑：
+add(E paramE)方法：添加到最后，逻辑是直接找到最后一个Node，并把它的next指向一个新new出来的Node
+add(int paramInt, E paramE)方法：插入到指定Node前，逻辑是找到指定的Node和上一个Node后，把指定Node的prev指向新new出来
+	的Node，上一个Node的next指向新new出来的Node
+remove(int paramInt): 删除指定的节点，逻辑是找到指定的Node的上一个Node和下一个Node后，直接把上一个Node的next指向下一
+	个Node即可

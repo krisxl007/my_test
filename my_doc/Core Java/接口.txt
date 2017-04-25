@@ -1,0 +1,52 @@
+接口的作用:
+1. 完全解耦(Decoupling)
+2. 多继承
+
+完全解耦: 指在复用一个类时，使用接口类型引用，这样当出现一个新的实现类时，该实现类只需要实现该接口即可，复用类完全不需要依赖实现类而进行修改。
+
+例:
+
+	//定义一个接口 磁盘
+	interface Disk(){
+		void save(File file); 
+	}
+
+	//U盘和硬盘都是磁盘，都实现这个接口
+	class UDisk implement Disk{
+		void save(File file); 
+	}
+
+
+	class HardDisk implement Disk{
+		void save(File file); 
+	}
+
+	//一个需要用磁盘来存储的下载工具
+	class Download{
+		Disk disk;//用接口声明，我们不知道，也不用知道，我们未来会存到什么样的磁盘，我们不依赖于任何类型的磁盘，我们只依赖于这个接口
+
+
+		void download(File file){
+			disk.save(file);
+		}
+
+		void setDisk(Disk disk){
+			this.disk=disk;
+		}
+
+		public static void main(String[] args){
+			Download download = new Download();
+			//设置存储目标为U盘
+			download.setDisk(new UDisk());
+			//文件被存到了U盘
+			download.download(file);
+
+			//设置存储目标为硬盘
+			download.setDisk(new HardDisk());
+			//文件被存到了硬盘
+			download.download(file);
+		}
+	}
+
+某天我们想把下载的文件保存到CD里边，我们只需要定义CDDisk类，实现Disk接口就可以不对download本身做任何修改，就可以方便的将文件下载到CD或其他介质里。
+我们的Download类不依赖于任何具体的类，这样就接触了与任何具体存储设备的耦合！

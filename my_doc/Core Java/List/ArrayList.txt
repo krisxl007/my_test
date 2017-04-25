@@ -1,0 +1,28 @@
+ArrayList的底层用数组来实现，要操作的对象就存放在该数组中。其实例中保存一个容量DEFAULT_CAPACITY = 10的数组elementData，因为数组
+初始化时需要指定大小，所以ArrayList需要解决一个扩容的问题，其实就是new一个大于当前数组两倍的新数组，并用System.arraycopy()来复
+制当前数组到新数组中。
+
+ArrayList需要添加/删除对象时，需要找到指定index对象，在添加/删除对象后，要把后面所有的数组移位，以下是jdk源码中remove方法：
+
+public E remove(int paramInt) {
+     rangeCheck(paramInt);
+ 
+     this.modCount += 1;
+     Object localObject = elementData(paramInt); //找到指定index的对象
+     int i = this.size - paramInt - 1; //指定index对象后有几个对象
+     if (i > 0) {
+       System.arraycopy(this.elementData, paramInt + 1, this.elementData, paramInt, i);
+     }
+     this.elementData[(--this.size)] = null; //删除最后一个对象
+ 
+     return localObject;
+}
+
+
+
+
+index： [0] [1] [2] [3] [4]
+object:  1   2   3   4   5
+
+要删除index=2时，直接用System.arraycopy(当前数组, index + 1, 当前数组, index, 2)从当前数组的第index=3开始，直接拷贝到当前数
+组的第index=2开始，拷贝2个(this.size - paramInt - 1)。最后还要删除最后一个对象

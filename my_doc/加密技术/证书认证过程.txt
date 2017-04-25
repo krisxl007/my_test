@@ -1,0 +1,19 @@
+证书: 除了包含自己的Public Key外，还有自己相关的信息。证书是公开的，所有人都可以看到，因此所有人都可以拿到Public Key.
+
+摘要: 是在要发送的文件中提取出来的一段摘要，并用Private Key来加密，并用同一方的Public Key可解密，因为摘要中不含有任何文件相关的内容，因此不需要担心被黑客用Public Key解密,因此
+摘要主要用于验证身份。
+
+验证过程：
+
+Server: Public Key(在Server的证书中含有),Private Key(Server自己保存)
+
+Client: Public Key(在Client的证书中含有),Private Key(Client自己保存)
+
+
+单向认证中:
+1.Client要验证Server的身份: Server把自己的证书传给Client，证书中包含有Server的一份摘要，Client通过证书里的Public Key解开摘要，能解开就验证了Server的身份合法。
+2.Client向Server发加密文件: 验证了Server的身份后，Client再用Server证书中的Public Key加密要发送的文件，并发给Server，Server用自己的Private Key解开文件。
+
+双向认证中: 
+除了上述Client对Server的验证外，Server也用同样的方法验证Client的身份. 例如在银行系统交互的环境中，客户提交自己的个人资料以后拿到银行颁发给自己的证书，银行需要
+根据这个证书，验证客户的身份是否合法。

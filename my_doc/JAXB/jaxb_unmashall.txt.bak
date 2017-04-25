@@ -1,0 +1,36 @@
+用JAXB的unmarshall可以把xml转换成java的Object,具体的方法就是将xml中的每个根元素(RootElement)创建为一个类,如下面的xml:
+
+<Logic>  
+    <sub1>  
+        <column name="sub1.col1" id="1" />
+        <column name="sub1.col2" id="2" />
+    </sub1>  
+    
+    <sub2>  
+        <column name="sub2.col1" id="1" />
+        <column name="sub2.col1" id="2" />
+    </sub2> 
+</Logic>
+
+就可以创建成4个类(根元素)Logic,sub1,sub2,column 每个类中含有各自属性如下:
+
+@XmlRootElement(name="Logic") //名字要与xml中的元素一致
+Logic类: 
+private Sub1 sub1;
+private Sub2 sub2;
+
+
+@XmlRootElement(name="sub1") 
+Sub1类:
+private List<Column> column;
+
+
+@XmlRootElement(name="sub2") 
+Sub2类:
+private List<Column> column;
+
+
+@XmlRootElement(name="column") 
+Column类:
+private String name;
+private String id;

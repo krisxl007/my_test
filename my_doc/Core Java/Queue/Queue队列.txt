@@ -1,0 +1,13 @@
+Queue在JDK中是一个接口，提供了如下最简单的队列操作基本方法:
+
+1.add/offer：都是在队列中添加新元素，但add方法在队列满时会抛出异常，而offer方法只会返回false
+2.remove/poll：都是从队列头获取到并移除元素，但remove方法在队列为空时会抛出异常，而poll则只会返回null
+3.element/peek：都是从队列头获取元素但不会移除，但element方法在队列为空时会抛出异常，而peek则只会返回null
+
+===========================================================================================================
+
+Queue在jdk中的一些实现:
+
+1.LinkedList：最常用最基本的简单队列
+2.Deque(Double End Queue)：双端队列的接口，允许在两段加入元素，但只能在一端输出，常用实现有ArrayDeque
+3.PriorityQueue：通过给定的comparator来实现优先级的队列，如传入Integer类型的元素(Integer实现了comparator)，会自动排列队列

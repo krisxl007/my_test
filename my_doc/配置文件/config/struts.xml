@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+
+	<!-- struts.xml的配置文件可以查struts核心包里的org.apache.struts2.default.properties文档 -->
+
+	<!-- 配置为开发模式:修改此文件不需要重新发布 -->
+	<constant name="struts.devMode" value="true"/>
+	<!-- 把扩展名配置为只有action后缀的URL可以访问 -->
+	<constant name="struts.action.extension" value="action"/>
+	<!-- 把主题配置为simple -->
+	<constant name="struts.ui.theme" value="simple"/>
+	<!-- 让OGNL中可以使用静态的方法 -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	
+	<package name="default" namespace="/" extends="struts-default">
+	
+		<interceptors>
+    		<!-- 声明拦截器 -->
+    		<interceptor name="checkPrivilege" class="com.oa.interceptor.ValidateInterceptor"></interceptor>
+    		
+    		<!-- 重新定义默认的拦截器栈 -->
+    		<interceptor-stack name="defaultStack">
+    			<interceptor-ref name="checkPrivilege"></interceptor-ref>
+    			<interceptor-ref name="defaultStack"></interceptor-ref>
+    		</interceptor-stack>
+    	</interceptors>
+    	
+    	<!-- 全局的结果集 -->
+    	<global-results>
+    		<result name="noPrivilegeError">noPrivilegeError.jsp</result>
+    	</global-results>
+	
+		<action name="myAction" class="myAction">
+			<result>test.jsp</result>
+		</action>
+		
+		<!-- 岗位管理 -->
+		<action name="role_*" class="roleAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/roleAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/roleAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">role_list</result>
+			<result name="toPrivilege">/WEB-INF/jsp/roleAction/privilegeUI.jsp</result>
+		</action>
+		
+		<!-- 部门管理 -->
+		<action name="department_*" class="departmentAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/departmentAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/departmentAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">department_list?parentId=%{parentId}</result>
+		</action>
+		
+		<!-- 用户管理 -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/userAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/userAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">user_list?parentId=%{parentId}</result>
+			<result name="loginUI">/WEB-INF/jsp/userAction/loginUI.jsp</result>
+			<result name="logout">/WEB-INF/jsp/userAction/logout.jsp</result>
+			<result name="toIndex" type="redirectAction">home_index</result>
+		</action>
+		
+		<!-- 显示主页 -->
+		<action name="home_*" class="homeAction" method="{1}">
+			<result name="{1}">/WEB-INF/jsp/homeAction/{1}.jsp</result>
+		</action>
+		
+		<!-- 论坛管理 -->
+		<action name="forumManage_*" class="forumManageAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/forumManageAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/forumManageAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">forumManage_list</result>
+		</action>
+		
+		<!-- 论坛相关内容管理 -->
+		<action name="forum_*" class="forumAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/forumAction/list.jsp</result>
+			<result name="show">/WEB-INF/jsp/forumAction/show.jsp</result>
+		</action>
+		
+		<!-- 主题相关内容管理 -->
+		<action name="topic_*" class="topicAction" method="{1}">
+			<result name="show">/WEB-INF/jsp/topicAction/show.jsp</result>
+			<result name="addUI">/WEB-INF/jsp/topicAction/addUI.jsp</result>
+			<result name="toShow" type="redirectAction">topic_show?domainTopic.id=${id}</result>
+		</action>
+		
+		<!-- 回复相关内容管理 -->
+		<action name="reply_*" class="replyAction" method="{1}">
+			<result name="addUI">/WEB-INF/jsp/replyAction/addUI.jsp</result>
+			<result name="toTopicShow" type="redirectAction">topic_show?domainTopic.id=${topicId}</result>
+		</action>
+		
+		<!-- 审批流转：审批流转管理-->
+		<action name="processDefinition_*" class="processDefinitionAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/processDefinitionAction/list.jsp</result>
+			<result name="addUI">/WEB-INF/jsp/processDefinitionAction/addUI.jsp</result>
+			<result name="toList" type="redirectAction">processDefinition_list</result>
+			<!-- 下载专用的结果配置 -->
+			<result name="downloadProcessImage" type="stream">
+				<param name="contentType">image/png</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<!-- 审批流转：表单模版管理-->
+		<action name="applicationTemplate_*" class="applicationTemplateAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/applicationTemplateAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/applicationTemplateAction/saveUI.jsp</result>
+			<result name="toList" type="redirectAction">applicationTemplate_list</result>
+			<!-- 下载专用的结果配置 -->
+			<result name="download" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">filename="${#fileName}.doc"</param>
+			</result>
+		</action>
+		
+		<!-- 审批流转：审批管理-->
+		<action name="flow_*" class="flowAction" method="{1}">
+			<result name="templateList">/WEB-INF/jsp/flowAction/templateList.jsp</result>
+			<result name="submitUI">/WEB-INF/jsp/flowAction/submitUI.jsp</result>
+			<result name="toMyApplicationList" type="redirectAction">flow_myApplicationList</result>
+			<result name="myApplicationList">/WEB-INF/jsp/flowAction/myApplicationList.jsp</result>
+			<result name="myTaskList">/WEB-INF/jsp/flowAction/myTaskList.jsp</result>
+			<result name="approveUI">/WEB-INF/jsp/flowAction/approveUI.jsp</result>
+			<result name="approveHistory">/WEB-INF/jsp/flowAction/approveHistory.jsp</result>
+			<result name="toMyTaskList" type="redirectAction">flow_myTaskList</result>
+			<!-- 下载专用的结果配置 -->
+			<result name="download" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">filename="${#fileName}.doc"</param>
+			</result>
+		</action>
+		
+	</package>
+	
+</struts>
+	

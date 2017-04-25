@@ -1,0 +1,19 @@
+Java中的23种设计模式： 
+Factory（工厂模式），      Builder（建造模式），       Factory Method（工厂方法模式）， 
+Prototype（原始模型模式），Singleton（单例模式），    Facade（门面模式）， 
+Adapter（适配器模式），    Bridge（桥梁模式），        Composite（合成模式）， 
+Decorator（装饰模式），    Flyweight（享元模式），     Proxy（代理模式）， 
+Command（命令模式），      Interpreter（解释器模式）， Visitor（访问者模式）， 
+Iterator（迭代器模式），   Mediator（调停者模式），    Memento（备忘录模式）， 
+Observer（观察者模式），   State（状态模式），         Strategy（策略模式）， 
+Template Method（模板方法模式）， Chain Of Responsibleity（责任链模式） 
+
+
+1.Chain Of Responsibleity（责任链模式）: 多个对象处理一个请求(如多个拦截器)时形成了一个链，对于每个对象处理的顺序问题，可以使用递归的方式来解决。
+					 JavaScript的事件处理，工作流系统中公文的多级审批，Web开发中的过滤器和拦截器都可以采用责任链模式实现。
+
+2.Iterator（迭代器模式）: 用于遍历collection，实现的方法是创建一个Iterator接口，里面有两个空的方法hasNext()和next(),然后所有的集合类(如ArrayList,HashSet等)
+			  实现该Iterator方法，并重写自己的hasNext()和next()实现。
+
+3.Strategy（策略模式）: 当要比较两个类的时候，自己定义一个策略比较器，然后由具体的比较策略来决定两个类谁大谁小。例如比较两只猫的大小，猫这个类必须实现
+			comparable接口并重写comparaTo方法，重写comparaTo方法时调用comparator接口的策略器来比较(策略器需要自己写)

@@ -1,0 +1,12 @@
+(1) html向jsp传参数：设置<input type="text" name="username">里的name,然后在jsp文件里用
+    String username = request.getParameter("username")来取得。
+
+(2) jsp向java类的方法传参数：在jsp里new一个对象User u = new User()然后用set方法u.setUsername(username)来设定，然后向
+    java类的方法传过去：
+	public void test(User u) {
+		System.out.println(u.getUsername());
+	}
+
+(3)java类方法拿html的参数：通过jsp拿
+
+(4)Action接收html参数：1.Action类里写private String username和getter setter方法，就可以直接用username了。

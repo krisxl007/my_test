@@ -1,0 +1,9 @@
+容器可分为Collection和Map两大类，每一类也都有各自的实现(Array,Hash,Linked,Tree)来满足不同的需求:
+
+Array(如ArrayList): 底层其实数组类型的实现,注重插入的顺序,随机访问速度快,但从中间操作对象较慢
+
+Hash(如HashSet,HashMap): 因为使用哈希码查找，查找速度最快
+
+Linked(如LinkedList,LinkedHashSet): 注重插入的顺序,随机访问速度较慢，但从中间操作对象快
+
+Tree(如TreeSet,TreeMap): 插入时会按照对象的大小来排序(比较两个对象大小可以让该对象实现comparator接口)

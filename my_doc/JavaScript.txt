@@ -1,0 +1,6 @@
+DOM: Document Object Model
+
+DOM对象节点：
+1.元素节点 (如<html></html>,<title></title>,<h1></h1>等)
+2.属性节点 (如超链接中的属性<a href="xxxxxx.html" />中的xxxxxx.html即为属性节点)
+3.文本节点 (如<title>标题一</title>里的"标题一"即为文本节点)

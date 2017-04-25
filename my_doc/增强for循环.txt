@@ -1,0 +1,8 @@
+增强的for循环主要用在遍历Collection上，但无法对Collection进行操作，例：
+	
+	public void test() {
+		ArrayList<Department> ll = (ArrayList<Department>) departmentService.findAll(); //从数据库拿出每一个值放到集合ll中
+		for(Department dept : ll) {	//从ll的第一个对象开始，放到dept进行遍历
+			System.out.println(dept.getId() + " " + dept.getName());
+		}
+	}

@@ -1,0 +1,35 @@
+\. c:\shopping.sql   引入一个数据库文件,结尾不需要分号
+show databases;  查看现有的数据库
+show tables;   查看现有的表
+show create table mydata; 查看当初建表时的建表语句
+create database mydata;  创建一个名为mydata数据库
+drop database mydata;  删除一个名为mydata的数据库
+use mydata;  使用名为mydata的数据库
+set names 'utf8';  设置字符编码为utf-8
+select * from dept limit 2,3;  分页用limit,查询dept这张表第二行开始的后三行内容
+SET FOREIGN_KEY_CHECKS = 0; 设置更新或删除操作时不检查外键约束，0为不检查，1为检查
+alter table 表名 rename to 新表名;  修改表名
+show global variables like 'port'; 查看端口号
+select user(); 查看当前用户
+
+
+/创建一张名为dept的表/
+create table dept
+(
+deptno int primary key,
+dname varchar(14),
+loc varchar(13)
+);
+
+/创建一张名为emp的表/
+create table emp
+(epno int primary key auto_increment,
+ename varchar(10),
+job varchar(10),
+mgr int,
+hiredate datetime,
+sal double,
+comm double,
+deptno int,
+foreign key(deptno) references dept(deptno)
+);

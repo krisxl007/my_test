@@ -1,0 +1,63 @@
+容器可分为Collection和Map两大类，每一类也都有各自的实现(Array,Hash,Linked,Tree)来满足不同的需求:
+
+Array(如ArrayList): 底层其实数组类型的实现,注重插入的顺序,随机访问速度快,但从中间操作对象较慢
+
+Hash(如HashSet,HashMap): 因为使用哈希码查找，查找速度最快
+
+Linked(如LinkedList,LinkedHashSet): 注重插入的顺序,随机访问速度较慢，但从中间操作对象快
+
+Tree(如TreeSet,TreeMap): 插入时会按照对象的大小来排序(比较两个对象大小可以让该对象实现java.lang.comparable接口),当往
+			TreeSet里add一个对象时，会调用对象的compareTo方法比较插入的对象，compareTo方法会返回1，0，-1
+			中的一个值，当返回1时，被插入的对象会被放到Set的第一个，当返回-1时，会被放到Set的最后一个，当
+			返回0时，表示对象相同，就不会被插入Set中了。例：
+
+	public class Test {
+	
+		public static void main(String[] args) {
+			
+			MyComparator m1 = new MyComparator(1);
+			MyComparator m2 = new MyComparator(2);
+			MyComparator m3 = new MyComparator(3);
+			
+			Set<MyComparator> mySet = new TreeSet<MyComparator>();
+			mySet.add(m1);
+			mySet.add(m2);
+			mySet.add(m3);
+			
+			System.out.println(mySet);
+		}
+
+	}
+
+	class MyComparator implements Comparable<Object> {
+
+		int size;
+
+		public MyComparator(int size) {
+			this.size = size;
+		}
+
+		@Override
+		public int compareTo(Object arg) {
+			
+			if(arg instanceof MyComparator) {
+				MyComparator myComparator = (MyComparator) arg;
+				
+				if(myComparator.size > this.size) {
+					return -1;
+				}else if(myComparator.size < this.size) {
+					return 1;
+				}else {
+					return 0;
+				}
+			}else {
+				throw new RuntimeException("object is not comparable");
+			}
+		}
+
+		@Override
+		public String toString() {
+			return String.valueOf(size);
+		}
+		
+	}

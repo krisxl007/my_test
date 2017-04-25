@@ -1,0 +1,41 @@
+JBPM必须要使用Hiberbate来配合实现，这是使用Hibernate的Annotation方式来配置JBPM的方法：
+
+1.导入jar包
+
+2.将jbpm.cfg.xml文件放到根目录下，并配置如下信息：
+	<import resource="jbpm.default.cfg.xml" />
+	<import resource="jbpm.businesscalendar.cfg.xml" />
+	<import resource="jbpm.tx.spring.cfg.xml" /> //与Spring整合需要导入jbpm.tx.spring.cfg.xml文件
+	<import resource="jbpm.jpdl.cfg.xml" />
+	<import resource="jbpm.bpmn.cfg.xml" />
+	<import resource="jbpm.identity.cfg.xml" />
+
+
+3.在Spring的applicationContext.xml文件中的SessionFaction的Bean中导入JBPM的映射文件
+	<!-- 导入JBPM4.4的映射文件 -->
+	<property name="mappingLocations">
+		<list>
+			<value>classpath:jbpm.execution.hbm.xml</value>
+			<value>classpath:jbpm.repository.hbm.xml</value>
+			<value>classpath:jbpm.task.hbm.xml</value>
+			<value>classpath:jbpm.history.hbm.xml</value>
+			<value>classpath:jbpm.identity.hbm.xml</value>
+		</list>
+	</property>
+
+
+4.在Spring的applicationContext.xml文件中配置JBPM的processEngine的Bean
+	<!-- 配置JBPM的processEngine的Bean -->
+	<bean id="springHelper" class="org.jbpm.pvm.internal.processengine.SpringHelper">
+  		<property name="jbpmCfg" value="jbpm.cfg.xml"></property>
+	</bean>
+	<bean id="processEngine" factory-bean="springHelper" factory-method="createProcessEngine" />
+
+
+测试JBPM与Spring整合成功：
+	// 测试SessionFactory，方法执行成功后，将会在数据库中生成18张供JBPM使用的新表
+	@Test
+	public void testSessionFactory() throws Exception {
+		SessionFactory sessionFactory = (SessionFactory) ac.getBean("sessionFactory");
+		System.out.println(sessionFactory);
+	}

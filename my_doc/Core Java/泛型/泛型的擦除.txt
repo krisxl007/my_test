@@ -1,0 +1,58 @@
+一个简单的例子:
+
+	import java.util.*; 
+	public class ErasedTypeEquivalence { 
+		public static void main(String[] args) { 
+			Class c1 = new ArrayList<String>().getClass(); //类型参数信息String被擦除
+			Class c2 = new ArrayList<Integer>().getClass(); //类型参数信息Integer被擦除
+			System.out.println(c1 == c2); 
+		} 
+	}
+
+	// Output: true 
+
+在代码的第4行和第5行，我们分别定义了一个接受String类型的List和一个接受Integer类型的List，按照我们正常的理解，泛型ArrayList<T>虽然是相同的，
+但是我们给它传了不同的类型参数，那么c1和2的类型应该是不同的。但是结果恰恰想法，运行程序发现二者的类型时相同的。这是为什么呢？这里就要说到
+Java语言实现泛型所独有的——擦除
+
+即当我们声明List<String>和List<Integer>时，在运行时实际上是相同的，都是List，而具体的类型参数信息String和Integer被擦除了。这就导致一个很
+麻烦的问题：在泛型代码内部，无法获得任何有关泛型参数类型的信息 （摘自《Java编程思想第4版》）
+
+
+=========================================================================================================================================
+RTTI: Runtime Type Identification(Java在运行期间对类型检查的机制)
+=========================================================================================================================================
+	interface Animal {
+		void speak();
+	}
+
+	class Dog implements Animal {
+		public void speak() { System.out.println("WangWang!"); }
+	}
+
+	class Cat implements Animal {
+		public void speak() { System.out.println("MauMau!"); }
+	}
+
+	//如果泛型参数不继承接口Animal，下面t.speak()将会报错，因为在运行时所传入的具体类型会丢失，编译器将无法得知t是否有speak()方法
+	//而这样写之后，编译器会在运行期间对传入的t进行类型检查(RTTI机制)
+	class Communicate<T extends Animal> { 
+		T t;
+
+		public Communicate(T t) {
+			this.t = t;
+		}
+
+		public void speak() {
+			t.speak(); //如果上面泛型参数不继承接口Animal，此行将报错。
+		}
+	}
+	public class DogsAndRobots {
+		public static void main(String[] args) {
+			Dog d = new Dog();
+			Cat r = new Cat();
+			
+			new Communicate(d).speak();
+			new Communicate(r).speak();
+		}
+	}

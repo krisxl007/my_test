@@ -1,0 +1,87 @@
+* 类中如果写了带参数的构造方法，就不会再默认继承无参数的那个构造方法了，所以想要实例化一个无参数的实例，必须显式的写一个
+  无参数的构造方法(给反射用)
+
+* 子类继承父类时，在子类的构造方法中一定首先会调用父类的无参构造方法(编译器默认调用，所以就算没写也是有的)，如：
+
+	public class Son extends Father{
+
+		public Son() {
+			super(); //就算不写这句，编译器也会默认调用父类无参构造方法
+			System.out.println("this is son default constractor");
+		}
+	}
+
+  所以当父类没有默认的构造方法的时候，编译器因为找不到父类默认的构造方法而报错，此时可以显式的调用父类有参数的那个构造方法即可，如：
+
+	public class Son extends Father{
+
+		public Son() {
+			super("abc");
+			System.out.println("this is son default constractor");
+		}
+	}
+
+* 哈希码: 在JVM中有一张表来存放所有对象的哈希码，JVM通过这个哈希码能很快找到这个对象
+
+* 类的名字: abc@a45b3f 中abc为类名 + @ + a45b3f为哈希码
+
+* 比较两个对象可以用"=="或者equals方法，都是默认比较两个对象的地址，如果需要自定义比较两个对象，可以重写equals方法来实现。
+  例如String类就重写了equals方法，当两个字符串相等时就返回true，而不在比较两个字符串的地址。
+
+* 在java的集合中,当需要比较两个对象是否相等时(例如删除Map中的一个对象)，必须重写equals和hashCode方法，例如下列程序中，如果不重写hashCode方法，将无法删除Map中的t1：
+
+	public class Test {
+	
+		String string;
+		
+		public Test(String str){
+			this.string = str;
+		}
+		
+		public static void main(String[] args) {
+			
+			HashMap collection = new HashMap();
+			Test t1 = new Test("hi");
+			
+			collection.put(t1,"t1");
+			System.out.println("添加t1对象： " + collection);
+			
+			Test t2 = new Test("hi");
+			collection.remove(t2);
+			System.out.println("要删除这个对象： " + collection);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			
+			if(obj instanceof Test) {
+				Test test = (Test)obj;
+				if(test.string == this.string) {
+					return true;
+				}else {
+					return false;
+				}
+			}
+			
+			return super.equals(obj);
+		}
+
+		@Override
+		public int hashCode() {
+			return string.hashCode();
+		}
+		
+		
+	}
+
+
+
+输出结果为：
+
+	添加t1对象： {Test@d01=t1}
+	要删除这个对象： {}
+
+
+* 在Map中，当把对象作为Key时，比较两个对象时，对象的Hashcode必须相等的时候才会调用equals方法。
+
+* 在使用HashSet（contains也是调用HashMap中的方法）、HashMap等集合时，如果用到contains系列方法时，记得需同时重写equals与hashCode方法。
