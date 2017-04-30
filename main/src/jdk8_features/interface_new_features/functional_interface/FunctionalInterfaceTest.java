@@ -31,9 +31,9 @@ public class FunctionalInterfaceTest {
     }
 
     public static void eval(List<Integer> list, MyFunctionalInterface<Integer> myFunctionalInterface) {
-        for(Integer n : list) {
-            if(myFunctionalInterface.test(n)) {
-                System.out.println(n + " ");
+        for(Integer i : list) {
+            if(myFunctionalInterface.test(i)) {
+                System.out.println(i + " ");
             }
         }
     }
