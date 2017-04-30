@@ -1,4 +1,4 @@
-package jdk8_features;
+package jdk8_features.interface_new_features;
 
 /**
  * JDK8中的接口可以实现static和default方法,而默认的抽象方法不能有方法体
