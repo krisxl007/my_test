@@ -19,7 +19,7 @@ public class OptionalTest {
         //创建Optional对象
         Optional<String> opt = Optional.empty();
 
-        //依据一个非空值创建Optional
+        //依据一个非空值创建Optional，此值不能为null，否则将抛出NullPointerException
         Optional<String> opt2 = Optional.of("hello");
 
         //可接受null的Optional
@@ -30,7 +30,7 @@ public class OptionalTest {
         System.out.println(getLength(null));
     }
 
-    public static void print(String text) {
+    private static void print(String text) {
         // Java 8
         Optional.ofNullable(text).ifPresent(System.out::println);
         // Pre-Java 8
@@ -39,10 +39,10 @@ public class OptionalTest {
         }
     }
 
-    public static int getLength(String text) {
+    private static int getLength(String text) {
         // Java 8
         return Optional.ofNullable(text).map(String::length).orElse(-1);
         // Pre-Java 8
         // return if (text != null) ? text.length() : -1;
-    };
+    }
 }
