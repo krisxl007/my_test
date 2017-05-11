@@ -22,11 +22,6 @@
 
     <dependencies>
         <!-- ActiveMQ -->
-        <!--<dependency>-->
-            <!--<groupId>javax.jms</groupId>-->
-            <!--<artifactId>jms</artifactId>-->
-            <!--<version>1.1</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-core</artifactId>
@@ -58,6 +53,27 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
+        </dependency>
+
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>3.6.10.Final</version>
+        </dependency>
+
+        <!-- javassist -->
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.12.0.GA</version>
+        </dependency>
+
+        <!-- mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
         </dependency>
 
     </dependencies>
