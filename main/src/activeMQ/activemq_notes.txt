@@ -1,0 +1,3 @@
+2 ports for usage of ActiveMQ:
+1)localhost:61616 for message operations
+2)//localhost:8161 for GUI (http://localhost:8161/admin, username:admin, password:admin)
