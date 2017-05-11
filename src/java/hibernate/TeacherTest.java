@@ -3,10 +3,7 @@ package hibernate;
 import hibernate.model.Teacher;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
-
-
 
 public class TeacherTest {
 
@@ -15,7 +12,7 @@ public class TeacherTest {
 		t.setName("Linda");
 		t.setTitle("Math teacher");
 		
-		Configuration cfg = new AnnotationConfiguration();
+		Configuration cfg = new Configuration();
 		SessionFactory sf = cfg.configure().buildSessionFactory();
 		Session session = sf.openSession();
 
