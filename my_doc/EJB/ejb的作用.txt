@@ -1,0 +1,16 @@
+EJB和Spring是类似的框架,EJB是官方提供的纯正符合J2EE标准的血统,而Spring确是由开源社区提供,并不是纯正的
+J2EE的标准，但是Spring确占据大半江山。以下概括了EJB的一些用途:
+
+Bean可以分为以下三种:
+1.Session Bean: 是EJB的核心,主要负责处理业务逻辑,Session Bean又有以下两种状态
+1)@Stateless: 无状态的会话bean，无状态的含义就是对谁都是一样的，不回保存某个请求的特定信息，或者同一个用户，两次请求同一个bean，这个bean也会把他作为两次请求来分别处理他们。
+2)@Stateful: 与无状态的会话bean相反。
+
+2.Entity Bean: 实体Bean是管理持久化数据的一个对象
+
+3.Message Driven Bean: 说道消息驱动bean就不得不说JMS,他是一种java消息服务，JMS的客户端之间可以通过JMS服务进行异步的消息传输，JMS支持两种
+消息模型：Point-to-Point和Publish/Subscribe（pub/sub），即点对点和发布/订阅模式。
+
+1.给客户端进行本地或远程调用: 用@local和@Remote来注解bean, 需要把bean打成jar包放到客户端
+2.把bean用于soap类型的webservice: 用@webservice和@webmethod来注解bean和该bean的方法
+3.依赖注入(重点): 用@EJB注解来注入
