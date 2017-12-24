@@ -1,0 +1,11 @@
+* Complete all required functions(better to have a checklist)
+* Duplicated code
+* Null checking
+* Meaningful variable names, method names and class names
+* Remove unused(unnecessary) methods/variables/comments
+* Update comments if code is updated
+* Class and method size
+* Unit tests to cover all public methods
+* Closing all the Streams in finally block
+* Exception handling: use the Logger to log instead of ex.printStackTrace()
+
