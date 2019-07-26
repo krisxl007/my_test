@@ -1,0 +1,41 @@
+public class PowerMockDemo {
+
+    // method to be tested
+    public Point callPrivateMethod() {
+        return privateMethod(new Point(1, 1));
+    }
+
+    // method to be mocked in test
+    private Point privateMethod(Point point) {
+        return new Point(point.getX() + 1, point.getY() + 1);
+    }
+}
+
+=======================================================================================
+How to test above callPrivateMethod() method with mocking privateMethod(Point point)???
+=======================================================================================
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(PowerMockDemo.class)
+public class PowerMockDemoTest {
+ 
+    private PowerMockDemo powerMockDemoSpy;
+ 
+    @Before
+    public void setUp() {
+        powerMockDemoSpy = PowerMockito.spy(new PowerMockDemo());
+    }
+ 
+    @Test
+    public void testMockPrivateMethod() throws Exception {
+        Point mockPoint = mock(Point.class);
+
+        // here is the mock
+        PowerMockito.doReturn(mockPoint)
+            .when(powerMockDemoSpy, "privateMethod", anyObject());
+ 
+        Point actualMockPoint = powerMockDemoSpy.callPrivateMethod();
+ 
+        assertThat(actualMockPoint, is(mockPoint));
+    }
+}
