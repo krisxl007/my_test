@@ -1,0 +1,23 @@
+@RunWith(MockitoJUnitRunner.class)
+public class TestLogging {
+
+  @Mock AppenderSkeleton appender;
+
+  @Captor ArgumentCaptor<LoggingEvent> logCaptor;
+
+  @Test
+
+  public void test() {
+
+    Logger.getRootLogger().addAppender(appender);
+
+    ...<your test code here>...
+
+
+    verify(appender, times(2)).doAppend(logCaptor.capture()); // verify how many times doAppend method is called.
+
+    assertEquals("Warning message should have been logged", "Caution!", logCaptor.getValue().getRenderedMessage());
+
+  }
+
+}
