@@ -7,6 +7,8 @@
 - E（Element）： 集合中的元素类型
 - K（Key）： 键
 - V（Value）： 值
+- N：Number（数值类型）
+- ？：表示不确定的java类型
 
 泛型的用法：
 - 泛型接口
@@ -14,8 +16,14 @@
 - 泛型方法
 
 泛型的边界：
+- 无边界(Unbounded Wildcards)：<?>
+    - 所传入的参数可以是任意类型
+
 - 上边界(Upper Bounds Wildcards): <? extends T>
     - 所传入的参数(?)必须是继承了T的类型
 
 - 下边界(Lower Bounds Wildcards): <? super T>
     - 所传入的参数(?)必须是T的父类
+
+
+泛型的实现: 泛型的实现主要是将型参转换为Object类型
