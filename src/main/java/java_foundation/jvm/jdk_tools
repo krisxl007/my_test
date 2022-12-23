@@ -1,0 +1,5 @@
+- javap: 反汇编工具，可以反汇编class文件
+    - javap abc.txt
+    - 反编译文件中的具体指令查附件
+
+- jvisualvm: jvm监控工具，可以监控线程，堆内存，GC等

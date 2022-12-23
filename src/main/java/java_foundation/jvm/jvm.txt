@@ -1,0 +1,37 @@
+1. JVM由三大部分组成
+==================
+- Class Loader (类加载器)
+    - 把类加载到虚拟机
+- JVM Memory (内存模型)
+    - Heap（堆）
+        - object
+    - Stack（栈）
+        - method
+        - local variable
+    - Native Method Stack（本地方法栈）
+        - native方法调用（本地方法由操作系统实现，可以是C，C++等等来实现）
+    - Method Area（方法区）
+        - 常量
+        - 静态变量
+        - 类信息
+    - PC Register（程序计数器）
+        - 存放程序运行的下一行代码的位置（反汇编的class文件有位置标识数字）
+- Execution Engine (字节码执行引擎)
+    - 实现GC
+
+
+2. Heap（堆内存）: 图查看附件，GC的时候慢慢往老年代移动
+================
+- Young Generation（1/3 heap size）
+    - Eden区（8/10 Young Generation size）
+    - Survivor区：分为两个survivor （2/10 Young Generation size）
+- Old Generation（2/3 heap size）
+
+
+3. GC:
+======
+- Minor GC: 仅回收新生代
+- Full GC： 回收新生代和老年代
+- GC types: G1, ZGC(jdk11), CMS, ParNew, Serial, Serial Old, Parallel, Parallel Old
+    - jdk8 default is Parallel
+    - jdk11 default is G1
