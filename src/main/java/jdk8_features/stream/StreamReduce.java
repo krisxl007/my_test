@@ -7,6 +7,7 @@ import java.util.stream.Stream;
  * 为空时，则返回一个Optional
  */
 public class StreamReduce {
+
     public static void main(String[] args) {
 
         // 字符串连接，concat = "ABCD"

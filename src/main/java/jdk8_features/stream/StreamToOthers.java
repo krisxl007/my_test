@@ -1,8 +1,10 @@
 package jdk8_features.stream;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -10,6 +12,9 @@ import java.util.stream.Stream;
  * 流转换为其它数据结构:
  */
 public class StreamToOthers {
+
+    private static Integer ID = 0;
+
     public static void main(String[] args) {
 
         // 1. stream to array
@@ -39,6 +44,4 @@ public class StreamToOthers {
         Stream<String> stream6 = Stream.of("a", "b", "c");
         String str = stream6.collect(Collectors.joining()).toString();
     }
-
-    private static Integer ID = 0;
 }
